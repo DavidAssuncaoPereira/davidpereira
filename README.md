@@ -1,41 +1,41 @@
-# 🌐 Site Pessoal - David Pereira
+# Site Pessoal - David Pereira
 
-Um site pessoal moderno e responsivo construído com Hugo, Sass e JavaScript.
+Um site pessoal moderno e responsivo para mostrar meus projetos e habilidades como desenvolvedor web.
 
-![Preview](https://img.shields.io/badge/Status-Em%20Desenvolvimento-yellow)
-![License](https://img.shields.io/badge/License-MIT-blue)
-![Hugo](https://img.shields.io/badge/Hugo-0.110.0-orange)
+## Características
 
-## ✨ Características
+- ✅ Design moderno e responsivo
+- ✅ Modo claro/escuro
+- ✅ Animações suaves
+- ✅ Formulário de contato funcional
+- ✅ Portfolio de projetos
+- ✅ SEO otimizado
+- ✅ Performance otimizada
 
-- 🎨 **Design Moderno** - Interface limpa e elegante
-- 📱 **Totalmente Responsivo** - Adapta-se a todos os dispositivos
-- ⚡ **Performance Otimizada** - Carregamento rápido
-- 🔍 **SEO Friendly** - Otimizado para motores de busca
-- ♿ **Acessível** - Conformidade com WCAG
-- 🌙 **Modo Escuro** - Suporte a tema escuro
-- 📝 **Blog Integrado** - Sistema de blog fácil de usar
+## Tecnologias Utilizadas
 
-## 🚀 Começar
+- HTML5
+- CSS3 (com variáveis CSS)
+- JavaScript Vanilla
+- Font Awesome (ícones)
+- Google Fonts (Inter)
 
-### Pré-requisitos
+## Como Usar
 
-- [Hugo](https://gohugo.io/) v0.110.0+
-- [Node.js](https://nodejs.org/) v16+
-- [Git](https://git-scm.com/)
+1. Clone ou baixe os arquivos
+2. Abra `index.html` no navegador
+3. Personalize o conteúdo no HTML
+4. Modifique as cores no arquivo CSS
+5. Adicione seus projetos na seção de portfolio
 
-### Instalação
+## Personalização
 
-```bash
-# Clonar repositório
-git clone https://github.com/DavidAssuncaoPereira/davidpereira-site.git
-cd davidpereira-site
+### Cores
+Edite as variáveis CSS no início do arquivo `style.css`:
 
-# Instalar dependências
-npm install
-
-# Iniciar servidor de desenvolvimento
-npm run dev
-
-# Abrir no navegador
-open http://localhost:1313
+```css
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #7c3aed;
+    /* ... outras cores ... */
+}

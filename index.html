@@ -3,216 +3,550 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>David Pereira | Desenvolvedor Web</title>
+    <title>David Pereira - Desenvolvedor Web</title>
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --secondary: #7c3aed;
-            --accent: #f59e0b;
-            --dark: #0f172a;
-            --light: #f8fafc;
-        }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    <!-- CSS Local -->
+    <link rel="stylesheet" href="style.css">
 
-        body {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            color: #e2e8f0;
-            min-height: 100vh;
-            padding: 2rem;
-        }
+    <!-- Favicon -->
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
+    <!-- SEO -->
+    <meta name="description" content="David Pereira - Estudante de Informática e Desenvolvedor Web Full-Stack.">
+    <meta name="keywords" content="David Pereira, programador, desenvolvedor web, frontend, backend, Portugal">
+    <meta name="author" content="David Assunção Pereira">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://davidassuncaopereira.github.io">
 
-        .loading {
-            text-align: center;
-            padding: 4rem;
-            font-size: 1.5rem;
-            color: var(--primary);
-        }
+    <!-- Open Graph -->
+    <meta property="og:title" content="David Pereira | Desenvolvedor Web">
+    <meta property="og:description" content="Desenvolvedor Web Full-Stack especializado em criar soluções modernas e eficientes">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://davidassuncaopereira.github.io/assets/images/profile.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://davidassuncaopereira.github.io">
+    <meta property="og:locale" content="pt_PT">
 
-        .hero {
-            text-align: center;
-            padding: 4rem 2rem;
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 20px;
-            margin: 2rem auto;
-            max-width: 800px;
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .hero h1 {
-            font-size: 3.5rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2rem;
-            color: #94a3b8;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 1rem 2rem;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 600;
-            margin: 0.5rem;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
-        .social-links {
-            margin-top: 2rem;
-        }
-
-        .social-links a {
-            display: inline-block;
-            margin: 0 1rem;
-            font-size: 1.5rem;
-            color: #cbd5e1;
-            transition: color 0.3s;
-        }
-
-        .social-links a:hover {
-            color: var(--primary);
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
-            margin-top: 4rem;
-        }
-
-        .feature-card {
-            background: rgba(30, 41, 59, 0.5);
-            padding: 2rem;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: transform 0.3s;
-        }
-
-        .feature-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .feature-card i {
-            font-size: 2.5rem;
-            color: var(--primary);
-            margin-bottom: 1rem;
-        }
-
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-
-            body {
-                padding: 1rem;
-            }
-        }
-
-        .spinner {
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            border-top: 4px solid var(--primary);
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-            margin: 2rem auto;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-    </style>
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="David Pereira | Desenvolvedor Web">
+    <meta name="twitter:description" content="Desenvolvedor Web Full-Stack especializado em criar soluções modernas">
+    <meta name="twitter:image" content="https://davidassuncaopereira.github.io/assets/images/profile.png">
 </head>
 <body>
-<div class="container">
-    <div class="hero">
-        <h1>David Pereira</h1>
-        <p>Desenvolvedor Web Full-Stack & UI/UX Designer</p>
-        <p>Transformando ideias em experiências digitais excepcionais</p>
-
-        <div style="margin: 2rem 0;">
-            <div class="spinner"></div>
-            <p>Carregando site completo...</p>
-        </div>
-
-        <div>
-            <a href="https://github.com/DavidAssuncaoPereira" class="btn" target="_blank">
-                <i class="fab fa-github"></i> GitHub
-            </a>
-            <a href="mailto:seu-email@exemplo.com" class="btn" style="background: linear-gradient(90deg, var(--accent), #ef4444);">
-                <i class="fas fa-envelope"></i> Contactar
-            </a>
-        </div>
-
-        <div class="social-links">
-            <a href="https://linkedin.com/in/davidpereira" target="_blank"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/DavidAssuncaoPereira" target="_blank"><i class="fab fa-github"></i></a>
-            <a href="https://twitter.com/davidpereira" target="_blank"><i class="fab fa-twitter"></i></a>
-        </div>
-    </div>
-
-    <div class="features">
-        <div class="feature-card">
-            <i class="fas fa-code"></i>
-            <h3>Desenvolvimento Web</h3>
-            <p>HTML, CSS, JavaScript, React, Node.js e muito mais</p>
-        </div>
-
-        <div class="feature-card">
-            <i class="fas fa-paint-brush"></i>
-            <h3>Design UI/UX</h3>
-            <p>Interfaces modernas, intuitivas e responsivas</p>
-        </div>
-
-        <div class="feature-card">
-            <i class="fas fa-rocket"></i>
-            <h3>Performance</h3>
-            <p>Sites rápidos, otimizados e escaláveis</p>
-        </div>
-    </div>
-
-    <div style="text-align: center; margin-top: 4rem; color: #64748b; font-size: 0.9rem;">
-        <p>🚀 Site em construção com Hugo & GitHub Pages</p>
-        <p>© 2024 David Assunção Pereira</p>
+<!-- Loading Screen -->
+<div class="loading-screen" id="loading">
+    <div class="loader">
+        <div class="spinner"></div>
+        <h2>David Pereira</h2>
     </div>
 </div>
 
-<script>
-    // Redirecionar para o site Hugo quando estiver pronto
-    setTimeout(() => {
-        window.location.href = window.location.pathname + 'index.html';
-    }, 3000);
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container">
+        <a href="#" class="logo">
+            <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+        </a>
 
-    // Se já estiver na página Hugo, não redirecionar
-    if(window.location.pathname.includes('/public/') || window.location.pathname.endsWith('index.html')) {
-        // Já está no site
-    }
-</script>
+        <ul class="nav-links">
+            <li><a href="#home" class="nav-link active">Início</a></li>
+            <li><a href="#about" class="nav-link">Sobre</a></li>
+            <li><a href="#skills" class="nav-link">Habilidades</a></li>
+            <li><a href="#projects" class="nav-link">Projetos</a></li>
+            <li><a href="#contact" class="nav-link">Contato</a></li>
+            <li>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </li>
+        </ul>
+
+        <button class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="#home" class="mobile-nav-link">Início</a></li>
+        <li><a href="#about" class="mobile-nav-link">Sobre</a></li>
+        <li><a href="#skills" class="mobile-nav-link">Habilidades</a></li>
+        <li><a href="#projects" class="mobile-nav-link">Projetos</a></li>
+        <li><a href="#contact" class="mobile-nav-link">Contato</a></li>
+    </ul>
+</div>
+
+<!-- Hero Section -->
+<section id="home" class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="greeting">👋 Olá, eu sou</span>
+                <h1 class="hero-title">
+                    <span class="highlight">David</span> Pereira
+                </h1>
+                <h2 class="hero-subtitle">
+                    <span class="typed-text" id="typed"></span>
+                    <span class="cursor">|</span>
+                </h2>
+                <p class="hero-description">
+                    Transformo ideias em experiências digitais excepcionais.
+                    Especializado em desenvolvimento web moderno, criação de interfaces
+                    intuitivas e soluções tecnológicas inovadoras.
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <i class="fas fa-code"></i> Ver Projetos
+                    </a>
+                    <a href="#contact" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Contato
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="3">0</span>
+                        <span class="stat-label">Anos Exp.</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="25">0</span>
+                        <span class="stat-label">Projetos</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="100">0</span>
+                        <span class="stat-label">Satisfação</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="image-container">
+                    <img src="assets/images/profile.png"
+                         alt="David Pereira - Desenvolvedor Web"
+                         class="profile-img">
+                    <div class="image-decoration"></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="#about" class="scroll-down">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about">
+    <div class="container">
+        <div class="section-header">
+            <h2>Sobre <span class="highlight">Mim</span></h2>
+            <p class="section-subtitle">Conheça minha jornada e paixão pela tecnologia</p>
+        </div>
+
+        <div class="about-content">
+            <div class="about-text">
+                <h3>David Assunção Pereira</h3>
+                <p>
+                    Sou um Desenvolvedor Web apaixonado por tecnologia, design e inovação.
+                    Minha jornada começou há mais de 3 anos, quando descobri o poder de
+                    transformar linhas de código em experiências digitais impactantes.
+                </p>
+                <p>
+                    Ao longo da minha carreira, tive a oportunidade de trabalhar em diversos
+                    projetos, desde pequenas landing pages até aplicações web complexas.
+                    Cada projeto é uma nova oportunidade de aprender, crescer e superar desafios.
+                </p>
+                <p>
+                    Acredito que a tecnologia deve ser acessível, intuitiva e eficiente.
+                    Meu objetivo é criar soluções que não apenas funcionem perfeitamente,
+                    mas que também proporcionem uma experiência memorável aos usuários.
+                </p>
+
+                <div class="personal-info">
+                    <div class="info-item">
+                        <strong><i class="fas fa-user"></i> Nome:</strong>
+                        <span>David Assunção Pereira</span>
+                    </div>
+                    <div class="info-item">
+                        <strong><i class="fas fa-envelope"></i> Email:</strong>
+                        <span>david.pereira@exemplo.com</span>
+                    </div>
+                    <div class="info-item">
+                        <strong><i class="fas fa-map-marker-alt"></i> Localização:</strong>
+                        <span>Portugal</span>
+                    </div>
+                    <div class="info-item">
+                        <strong><i class="fas fa-briefcase"></i> Disponibilidade:</strong>
+                        <span class="available">Disponível para novos projetos</span>
+                    </div>
+                </div>
+
+                <a href="#contact" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Vamos Conversar
+                </a>
+            </div>
+
+            <div class="about-image">
+                <img src="assets/images/project-1.png"
+                     alt="David Pereira - Sobre mim">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="skills">
+    <div class="container">
+        <div class="section-header">
+            <h2>Minhas <span class="highlight">Habilidades</span></h2>
+            <p class="section-subtitle">Tecnologias e ferramentas que domino</p>
+        </div>
+
+        <div class="skills-grid">
+            <div class="skill-category">
+                <h3><i class="fas fa-code"></i> Frontend</h3>
+                <div class="skill-items">
+                    <div class="skill-item">
+                        <span class="skill-name">HTML5</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%"></div>
+                        </div>
+                        <span class="skill-percent">95%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">CSS3</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%"></div>
+                        </div>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">JavaScript</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 85%"></div>
+                        </div>
+                        <span class="skill-percent">85%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">React</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%"></div>
+                        </div>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-server"></i> Backend</h3>
+                <div class="skill-items">
+                    <div class="skill-item">
+                        <span class="skill-name">Node.js</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 75%"></div>
+                        </div>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Python</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 70%"></div>
+                        </div>
+                        <span class="skill-percent">70%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">PHP</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 65%"></div>
+                        </div>
+                        <span class="skill-percent">65%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">MySQL</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 80%"></div>
+                        </div>
+                        <span class="skill-percent">80%</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="skill-category">
+                <h3><i class="fas fa-tools"></i> Ferramentas</h3>
+                <div class="skill-items">
+                    <div class="skill-item">
+                        <span class="skill-name">Git</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 90%"></div>
+                        </div>
+                        <span class="skill-percent">90%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">VS Code</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 95%"></div>
+                        </div>
+                        <span class="skill-percent">95%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Figma</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 75%"></div>
+                        </div>
+                        <span class="skill-percent">75%</span>
+                    </div>
+                    <div class="skill-item">
+                        <span class="skill-name">Docker</span>
+                        <div class="skill-bar">
+                            <div class="skill-level" style="width: 60%"></div>
+                        </div>
+                        <span class="skill-percent">60%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="projects">
+    <div class="container">
+        <div class="section-header">
+            <h2>Meus <span class="highlight">Projetos</span></h2>
+            <p class="section-subtitle">Alguns dos meus trabalhos mais recentes</p>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Projeto 1 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="assets/images/project-1.png"
+                         alt="Plataforma E-commerce - Projeto David Pereira">
+                    <div class="project-overlay">
+                        <a href="#" class="project-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Plataforma E-commerce</h3>
+                    <p>Site de e-commerce completo com carrinho de compras, checkout e painel administrativo.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML</span>
+                        <span class="tech-tag">CSS</span>
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">Node.js</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/DavidAssuncaoPereira" class="project-github" target="_blank">
+                            <i class="fab fa-github"></i> Código
+                        </a>
+                        <a href="#" class="project-demo">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projeto 2 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="assets/images/project-2.png"
+                         alt="Dashboard Analytics - Projeto David Pereira">
+                    <div class="project-overlay">
+                        <a href="#" class="project-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Dashboard Analytics</h3>
+                    <p>Dashboard interativo para visualização de dados com gráficos e métricas em tempo real.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">React</span>
+                        <span class="tech-tag">Chart.js</span>
+                        <span class="tech-tag">API</span>
+                        <span class="tech-tag">CSS3</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/DavidAssuncaoPereira" class="project-github" target="_blank">
+                            <i class="fab fa-github"></i> Código
+                        </a>
+                        <a href="#" class="project-demo">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projeto 3 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="assets/images/project-3.png"
+                         alt="Task Manager App - Projeto David Pereira">
+                    <div class="project-overlay">
+                        <a href="#" class="project-link">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Task Manager App</h3>
+                    <p>Aplicativo de gerenciamento de tarefas com drag & drop e sistema de notificações.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">JavaScript</span>
+                        <span class="tech-tag">LocalStorage</span>
+                        <span class="tech-tag">CSS Grid</span>
+                        <span class="tech-tag">Responsive</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/DavidAssuncaoPereira" class="project-github" target="_blank">
+                            <i class="fab fa-github"></i> Código
+                        </a>
+                        <a href="#" class="project-demo">
+                            <i class="fas fa-eye"></i> Demo
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <a href="https://github.com/DavidAssuncaoPereira" class="btn btn-primary" target="_blank">
+                <i class="fab fa-github"></i> Ver Todos no GitHub
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="contact">
+    <div class="container">
+        <div class="section-header">
+            <h2>Entre em <span class="highlight">Contato</span></h2>
+            <p class="section-subtitle">Vamos trabalhar juntos no seu próximo projeto</p>
+        </div>
+
+        <div class="contact-content">
+            <div class="contact-info">
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Email</h3>
+                        <p>david.pereira@exemplo.com</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Localização</h3>
+                        <p>Portugal</p>
+                    </div>
+                </div>
+
+                <div class="contact-item">
+                    <div class="contact-icon">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="contact-details">
+                        <h3>Telefone</h3>
+                        <p>+351 912 345 678</p>
+                    </div>
+                </div>
+
+                <div class="social-media">
+                    <h3>Redes Sociais</h3>
+                    <div class="social-links">
+                        <a href="https://github.com/DavidAssuncaoPereira" class="social-link" target="_blank">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://linkedin.com/in/davidpereira" class="social-link" target="_blank">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://twitter.com/davidpereira" class="social-link" target="_blank">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="https://instagram.com/david.pereira" class="social-link" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Seu nome" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Seu email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" id="subject" placeholder="Assunto" required>
+                    </div>
+
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Sua mensagem" rows="5" required></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </div>
+
+            <p class="footer-text">
+                Transformando ideias em realidade através do código.
+                Especializado em desenvolvimento web moderno e soluções digitais inovadoras.
+            </p>
+
+            <div class="footer-links">
+                <a href="#home">Início</a>
+                <a href="#about">Sobre</a>
+                <a href="#skills">Habilidades</a>
+                <a href="#projects">Projetos</a>
+                <a href="#contact">Contato</a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 David Assunção Pereira. Todos os direitos reservados.</p>
+                <p>Desenvolvido com ❤️ e muito café.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
+<script src="script.js"></script>
 </body>
 </html>
