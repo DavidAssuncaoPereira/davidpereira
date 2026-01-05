@@ -1,0 +1,37 @@
+{
+  "name": "davidpereira-site",
+  "version": "1.0.0",
+  "description": "Site pessoal profissional de David Assunção Pereira",
+  "scripts": {
+    "dev": "hugo server -D",
+    "build": "hugo --minify",
+    "build:production": "hugo --minify --environment production",
+    "deploy": "npm run build:production && gh-pages -d public",
+    "clean": "rm -rf public resources/_gen",
+    "test": "echo \"No tests specified\" && exit 0",
+    "preview": "hugo server --buildDrafts --buildFuture",
+    "serve": "hugo server --disableFastRender",
+    "css:watch": "sass --watch src/assets/scss:src/assets/css",
+    "css:build": "sass src/assets/scss:src/assets/css --style=compressed"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.27",
+    "postcss-cli": "^10.1.0",
+    "sass": "^1.63.6",
+    "cssnano": "^6.0.1"
+  },
+  "dependencies": {
+    "gh-pages": "^5.0.0",
+    "@emailjs/browser": "^3.11.0"
+  },
+  "keywords": [
+    "portfolio",
+    "developer",
+    "web",
+    "hugo",
+    "static-site"
+  ],
+  "author": "David Assunção Pereira",
+  "license": "MIT"
+}

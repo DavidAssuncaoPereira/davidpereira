@@ -1,0 +1,21 @@
+baseURL = 'https://DavidAssuncaoPereira.github.io/'  # OU seu domínio custom
+languageCode = 'pt-pt'
+title = 'David Pereira | Desenvolvedor Web'
+theme = ''
+
+[params]
+  name = 'David Assunção Pereira'
+  title = 'Desenvolvedor Web Full-Stack'
+  email = 'david.pereira@exemplo.com'
+
+  # Links sociais
+  github = 'https://github.com/DavidAssuncaoPereira'
+  linkedin = 'https://linkedin.com/in/davidpereira'
+
+[deployment]
+  order = ['.jpg$', '.png$', '.webp$', '.gif$', '.svg$']
+
+[[deployment.targets]]
+  name = "github"
+  URL = "https://github.com/DavidAssuncaoPereira/DavidAssuncaoPereira.github.io"
+  branch = "gh-pages"
