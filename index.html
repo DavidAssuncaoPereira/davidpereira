@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>David Pereira | Desenvolvedor Web</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #7c3aed;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            margin: 2rem auto;
+            max-width: 800px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            color: #94a3b8;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 0.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
+        }
+
+        .social-links {
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            display: inline-block;
+            margin: 0 1rem;
+            font-size: 1.5rem;
+            color: #cbd5e1;
+            transition: color 0.3s;
+        }
+
+        .social-links a:hover {
+            color: var(--primary);
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .feature-card {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            body {
+                padding: 1rem;
+            }
+        }
+
+        .spinner {
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--primary);
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="hero">
+        <h1>David Pereira</h1>
+        <p>Desenvolvedor Web Full-Stack & UI/UX Designer</p>
+        <p>Transformando ideias em experiências digitais excepcionais</p>
+
+        <div style="margin: 2rem 0;">
+            <div class="spinner"></div>
+            <p>Carregando site completo...</p>
+        </div>
+
+        <div>
+            <a href="https://github.com/DavidAssuncaoPereira" class="btn" target="_blank">
+                <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="mailto:seu-email@exemplo.com" class="btn" style="background: linear-gradient(90deg, var(--accent), #ef4444);">
+                <i class="fas fa-envelope"></i> Contactar
+            </a>
+        </div>
+
+        <div class="social-links">
+            <a href="https://linkedin.com/in/davidpereira" target="_blank"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/DavidAssuncaoPereira" target="_blank"><i class="fab fa-github"></i></a>
+            <a href="https://twitter.com/davidpereira" target="_blank"><i class="fab fa-twitter"></i></a>
+        </div>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <i class="fas fa-code"></i>
+            <h3>Desenvolvimento Web</h3>
+            <p>HTML, CSS, JavaScript, React, Node.js e muito mais</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-paint-brush"></i>
+            <h3>Design UI/UX</h3>
+            <p>Interfaces modernas, intuitivas e responsivas</p>
+        </div>
+
+        <div class="feature-card">
+            <i class="fas fa-rocket"></i>
+            <h3>Performance</h3>
+            <p>Sites rápidos, otimizados e escaláveis</p>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 4rem; color: #64748b; font-size: 0.9rem;">
+        <p>🚀 Site em construção com Hugo & GitHub Pages</p>
+        <p>© 2024 David Assunção Pereira</p>
+    </div>
+</div>
+
+<script>
+    // Redirecionar para o site Hugo quando estiver pronto
+    setTimeout(() => {
+        window.location.href = window.location.pathname + 'index.html';
+    }, 3000);
+
+    // Se já estiver na página Hugo, não redirecionar
+    if(window.location.pathname.includes('/public/') || window.location.pathname.endsWith('index.html')) {
+        // Já está no site
+    }
+</script>
+</body>
+</html>
