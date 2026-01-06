@@ -2,10 +2,13 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Loading Screen
     setTimeout(() => {
-        document.getElementById('loading').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('loading').style.display = 'none';
-        }, 500);
+        const loading = document.getElementById('loading');
+        if (loading) {
+            loading.style.opacity = '0';
+            setTimeout(() => {
+                loading.style.display = 'none';
+            }, 500);
+        }
     }, 1500);
 
     // Initialize components
@@ -16,11 +19,15 @@ document.addEventListener('DOMContentLoaded', function() {
     initCounterAnimation();
     initScrollToTop();
     initActiveNavLinks();
+    initSkillBars(); // Movi o initSkillBars para aqui para ficar tudo junto
+    initContactForm(); // Nova função para o formulário
 });
 
 // ===== THEME TOGGLE =====
 function initThemeToggle() {
     const themeToggle = document.getElementById('themeToggle');
+    if (!themeToggle) return;
+
     const icon = themeToggle.querySelector('i');
 
     // Check for saved theme or prefer-color-scheme
@@ -52,6 +59,8 @@ function initMobileMenu() {
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
     const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+
+    if (!menuToggle || !mobileMenu) return;
 
     menuToggle.addEventListener('click', () => {
         mobileMenu.classList.toggle('active');
@@ -91,6 +100,8 @@ function initSmoothScroll() {
 function initTypedText() {
     const typedTextSpan = document.getElementById('typed');
     const cursorSpan = document.querySelector('.cursor');
+
+    if (!typedTextSpan || !cursorSpan) return;
 
     const textArray = [
         "Aprendiz",
@@ -170,6 +181,7 @@ function initCounterAnimation() {
 // ===== SCROLL TO TOP =====
 function initScrollToTop() {
     const backToTopBtn = document.getElementById('backToTop');
+    if (!backToTopBtn) return;
 
     window.addEventListener('scroll', () => {
         if (window.pageYOffset > 300) {
@@ -235,5 +247,49 @@ function initSkillBars() {
     skillBars.forEach(bar => observer.observe(bar));
 }
 
-// Inicializar skill bars quando a página carregar
-window.addEventListener('load', initSkillBars);
+// ===== CONTACT FORM (EMAILJS) =====
+function initContactForm() {
+    // Verifica se a biblioteca EmailJS foi carregada
+    if (typeof emailjs === 'undefined') {
+        console.error("EmailJS não carregado");
+        return;
+    }
+
+    // Inicializa o EmailJS com a tua Public Key
+    emailjs.init("BBCZ878vA4NYImERi");
+
+    const form = document.getElementById("contactForm");
+
+    if (form) {
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            // Feedback visual no botão
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A enviar...';
+            btn.disabled = true;
+
+            emailjs.sendForm(
+                "service_esx5qci",  // Service ID
+                "template_iw84fjm", // Template ID
+                this
+            ).then(
+                function() {
+                    alert("Mensagem enviada com sucesso!");
+                    form.reset();
+                    // Restaurar botão
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                },
+                function(error) {
+                    alert("Erro ao enviar: " + error.text);
+                    console.error("Erro EmailJS:", error);
+                    // Restaurar botão
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }
+            );
+        });
+    }
+}

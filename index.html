@@ -5,23 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>David Pereira</title>
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CSS Local -->
     <link rel="stylesheet" href="style.css">
 
-    <!-- Favicon -->
     <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
 
-    <!-- SEO -->
     <meta name="description" content="David Pereira - Estudante de Informática e Desenvolvedor Web.">
-    <meta name="keywords" content="David PerCreira, programador, desenvolvedor web, frontend, backend, Portugal">
+    <meta name="keywords" content="David Pereira, programador, desenvolvedor web, frontend, backend, Portugal">
     <meta name="author" content="David Assunção Pereira">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://davidassuncaopereira.github.io">
 
-    <!-- Open Graph -->
     <meta property="og:title" content="David Pereira">
     <meta property="og:description" content="Pretendo aprender a melhorar os meus conceitos">
     <meta property="og:type" content="website">
@@ -31,14 +26,12 @@
     <meta property="og:url" content="https://davidassuncaopereira.github.io">
     <meta property="og:locale" content="pt_PT">
 
-    <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="David Pereira">
     <meta name="twitter:description" content="Pretendo aprender a melhorar os meus conceitos">
     <meta name="twitter:image" content="https://davidassuncaopereira.github.io/assets/images/profile.png">
 </head>
 <body>
-<!-- Loading Screen -->
 <div class="loading-screen" id="loading">
     <div class="loader">
         <div class="spinner"></div>
@@ -46,7 +39,6 @@
     </div>
 </div>
 
-<!-- Navigation -->
 <nav class="navbar">
     <div class="container">
         <a href="#" class="logo">
@@ -71,7 +63,6 @@
     </div>
 </nav>
 
-<!-- Mobile Menu -->
 <div class="mobile-menu" id="mobileMenu">
     <ul>
         <li><a href="#home" class="mobile-nav-link">Início</a></li>
@@ -81,7 +72,6 @@
     </ul>
 </div>
 
-<!-- Hero Section -->
 <section id="home" class="hero">
     <div class="container">
         <div class="hero-content">
@@ -132,7 +122,6 @@
     </div>
 </section>
 
-<!-- About Section -->
 <section id="about" class="about">
     <div class="container">
         <div class="section-header">
@@ -185,7 +174,6 @@
     </div>
 </section>
 
-<!-- Skills Section -->
 <section id="skills" class="skills">
     <div class="container">
         <div class="section-header">
@@ -285,7 +273,6 @@
     </div>
 </section>
 
-<!-- Contact Section -->
 <section id="contact" class="contact">
     <div class="container">
         <div class="section-header">
@@ -362,7 +349,7 @@
                         <textarea name="message" placeholder="Sua mensagem" rows="5" required></textarea>
                     </div>
 
-                    <button type="submit" class="btn btn-primary">
+                    <button type="submit" class="btn btn-primary" id="contact-submit-btn">
                         <i class="fas fa-paper-plane"></i> Enviar Mensagem
                     </button>
                 </form>
@@ -371,7 +358,6 @@
     </div>
 </section>
 
-<!-- Footer -->
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
@@ -398,37 +384,11 @@
     </div>
 </footer>
 
-<!-- Back to Top Button -->
 <button class="back-to-top" id="backToTop">
     <i class="fas fa-chevron-up"></i>
 </button>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs@3/dist/email.min.js"></script>
-
-<script>
-    (function(){
-        emailjs.init("BBCZ878vA4NYImERi");
-    })();
-
-    document.getElementById("contactForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-
-        emailjs.sendForm(
-            "service_esx5qci",
-            "template_iw84fjm",
-            this
-        ).then(
-            function() {
-                alert("Mensagem enviada com sucesso!");
-                document.getElementById("contactForm").reset();
-            },
-            function(error) {
-                alert("Erro ao enviar: " + error.text);
-            }
-        );
-    });
-</script>
-
 <script src="script.js"></script>
 </body>
 </html>
