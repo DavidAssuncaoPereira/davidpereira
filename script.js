@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initSmoothScroll();
     initTypedText();
     initCounterAnimation();
-    initContactForm();
     initScrollToTop();
     initActiveNavLinks();
 });
@@ -166,32 +165,6 @@ function initCounterAnimation() {
     }, { threshold: 0.5 });
 
     counters.forEach(counter => observer.observe(counter));
-}
-
-// ===== CONTACT FORM =====
-function initContactForm() {
-    const contactForm = document.getElementById('contactForm');
-
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            // Simular envio do formulário
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
-            submitBtn.disabled = true;
-
-            // Simular delay de rede
-            setTimeout(() => {
-                alert('Mensagem enviada com sucesso! Entrarei em contato em breve.');
-                contactForm.reset();
-                submitBtn.innerHTML = originalText;
-                submitBtn.disabled = false;
-            }, 1500);
-        });
-    }
 }
 
 // ===== SCROLL TO TOP =====
