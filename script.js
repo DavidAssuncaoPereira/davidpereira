@@ -19,8 +19,8 @@ document.addEventListener('DOMContentLoaded', function() {
     initCounterAnimation();
     initScrollToTop();
     initActiveNavLinks();
-    initSkillBars(); // Movi o initSkillBars para aqui para ficar tudo junto
-    initContactForm(); // Nova função para o formulário
+    initSkillBars();
+    initContactForm(); // Inicia o formulário de contacto
 });
 
 // ===== THEME TOGGLE =====
@@ -30,7 +30,6 @@ function initThemeToggle() {
 
     const icon = themeToggle.querySelector('i');
 
-    // Check for saved theme or prefer-color-scheme
     const savedTheme = localStorage.getItem('theme') ||
         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
 
@@ -81,7 +80,6 @@ function initSmoothScroll() {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function(e) {
             e.preventDefault();
-
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
 
@@ -149,7 +147,6 @@ function initTypedText() {
 // ===== COUNTER ANIMATION =====
 function initCounterAnimation() {
     const counters = document.querySelectorAll('.stat-number');
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -174,7 +171,6 @@ function initCounterAnimation() {
             }
         });
     }, { threshold: 0.5 });
-
     counters.forEach(counter => observer.observe(counter));
 }
 
@@ -192,10 +188,7 @@ function initScrollToTop() {
     });
 
     backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 }
 
@@ -206,15 +199,12 @@ function initActiveNavLinks() {
 
     window.addEventListener('scroll', () => {
         let current = '';
-
         sections.forEach(section => {
             const sectionTop = section.offsetTop;
-            const sectionHeight = section.clientHeight;
             if (scrollY >= (sectionTop - 150)) {
                 current = section.getAttribute('id');
             }
         });
-
         navLinks.forEach(link => {
             link.classList.remove('active');
             if (link.getAttribute('href') === `#${current}`) {
@@ -227,36 +217,35 @@ function initActiveNavLinks() {
 // ===== SKILL BARS ANIMATION =====
 function initSkillBars() {
     const skillBars = document.querySelectorAll('.skill-level');
-
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const skillBar = entry.target;
                 const width = skillBar.style.width;
                 skillBar.style.width = '0';
-
-                setTimeout(() => {
-                    skillBar.style.width = width;
-                }, 300);
-
+                setTimeout(() => { skillBar.style.width = width; }, 300);
                 observer.unobserve(skillBar);
             }
         });
     }, { threshold: 0.5 });
-
     skillBars.forEach(bar => observer.observe(bar));
 }
 
 // ===== CONTACT FORM (EMAILJS) =====
 function initContactForm() {
-    // Verifica se a biblioteca EmailJS foi carregada
+    // Verifica se a biblioteca carregou
     if (typeof emailjs === 'undefined') {
-        console.error("EmailJS não carregado");
+        console.error("Erro: EmailJS não carregou.");
         return;
     }
 
-    // Inicializa o EmailJS com a tua Public Key
-    emailjs.init("BBCZ878vA4NYImERi");
+    // --- CONFIGURAÇÃO (IDs) ---
+    // Se estes não forem os TEUS IDs, troca-os aqui!
+    const publicKey = "BBCZ878vA4NYImERi";
+    const serviceID = "service_esx5qci";
+    const templateID = "template_iw84fjm";
+
+    emailjs.init(publicKey);
 
     const form = document.getElementById("contactForm");
 
@@ -264,32 +253,24 @@ function initContactForm() {
         form.addEventListener("submit", function(e) {
             e.preventDefault();
 
-            // Feedback visual no botão
+            // Botão a carregar...
             const btn = form.querySelector('button[type="submit"]');
             const originalText = btn.innerHTML;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A enviar...';
             btn.disabled = true;
 
-            emailjs.sendForm(
-                "service_esx5qci",  // Service ID
-                "template_iw84fjm", // Template ID
-                this
-            ).then(
-                function() {
+            emailjs.sendForm(serviceID, templateID, this)
+                .then(function() {
                     alert("Mensagem enviada com sucesso!");
                     form.reset();
-                    // Restaurar botão
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                },
-                function(error) {
-                    alert("Erro ao enviar: " + error.text);
+                }, function(error) {
+                    alert("Erro ao enviar: " + JSON.stringify(error));
                     console.error("Erro EmailJS:", error);
-                    // Restaurar botão
                     btn.innerHTML = originalText;
                     btn.disabled = false;
-                }
-            );
+                });
         });
     }
 }
