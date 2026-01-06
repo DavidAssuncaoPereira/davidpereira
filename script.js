@@ -94,10 +94,10 @@ function initTypedText() {
     const cursorSpan = document.querySelector('.cursor');
 
     const textArray = [
-        "Desenvolvedor Web Full-Stack",
-        "Especialista em Frontend",
-        "Criador de Soluções Digitais",
-        "Apaixonado por Tecnologia"
+        "Aprendiz",
+        "Boa coligação com a equipa",
+        "Motivado",
+        "Apaixonado por Programação"
     ];
     const typingDelay = 100;
     const erasingDelay = 50;
