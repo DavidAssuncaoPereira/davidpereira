@@ -21,6 +21,12 @@ document.addEventListener('DOMContentLoaded', function() {
     initActiveNavLinks();
     initSkillBars();
     initContactForm(); // Inicia o formulário de contacto
+
+    // Atualiza o ano no footer
+    const currentYearSpan = document.getElementById('current-year');
+    if (currentYearSpan) {
+        currentYearSpan.innerText = new Date().getFullYear();
+    }
 });
 
 // ===== THEME TOGGLE =====
@@ -103,7 +109,7 @@ function initTypedText() {
 
     const textArray = [
         "Aprendiz",
-        "Boa coligação com a equipa",
+        "Espírito de equipa",
         "Motivado",
         "Apaixonado por Programação"
     ];
