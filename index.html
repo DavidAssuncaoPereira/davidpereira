@@ -47,15 +47,16 @@
             <li><a href="#home" class="nav-link active">Início</a></li>
             <li><a href="#about" class="nav-link">Sobre</a></li>
             <li><a href="#skills" class="nav-link">Habilidades</a></li>
+            <li><a href="#projects" class="nav-link">Projetos</a></li>
             <li><a href="#contact" class="nav-link">Contacto</a></li>
             <li>
-                <button class="theme-toggle" id="themeToggle">
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
                     <i class="fas fa-moon"></i>
                 </button>
             </li>
         </ul>
 
-        <button class="menu-toggle" id="menuToggle">
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
             <i class="fas fa-bars"></i>
         </button>
     </div>
@@ -66,6 +67,7 @@
         <li><a href="#home" class="mobile-nav-link">Início</a></li>
         <li><a href="#about" class="mobile-nav-link">Sobre</a></li>
         <li><a href="#skills" class="mobile-nav-link">Habilidades</a></li>
+        <li><a href="#projects" class="mobile-nav-link">Projetos</a></li>
         <li><a href="#contact" class="mobile-nav-link">Contacto</a></li>
     </ul>
 </div>
@@ -114,7 +116,7 @@
             </div>
         </div>
 
-        <a href="#about" class="scroll-down">
+        <a href="#about" class="scroll-down" aria-label="Descer para a seção sobre mim">
             <i class="fas fa-chevron-down"></i>
         </a>
     </div>
@@ -271,6 +273,40 @@
     </div>
 </section>
 
+<section id="projects" class="projects">
+    <div class="container">
+        <div class="section-header">
+            <h2>Meus <span class="highlight">Projetos</span></h2>
+            <p class="section-subtitle">Alguns dos trabalhos que desenvolvi</p>
+        </div>
+
+        <div class="projects-grid">
+            <!-- Cartão de Projeto 1 -->
+            <div class="project-card">
+                <div class="project-image">
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=400&q=80" alt="Projeto 1" loading="lazy">
+                    <div class="project-overlay">
+                        <a href="#" class="project-link" target="_blank" rel="noopener noreferrer" aria-label="Aceder ao Projeto"><i class="fas fa-link"></i></a>
+                    </div>
+                </div>
+                <div class="project-content">
+                    <h3>Nome do Projeto</h3>
+                    <p>Uma breve descrição sobre o que foi feito neste projeto e os problemas que resolve.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">HTML5</span>
+                        <span class="tech-tag">CSS3</span>
+                        <span class="tech-tag">JavaScript</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-github" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> Código</a>
+                        <a href="#" class="project-demo" target="_blank" rel="noopener noreferrer"><i class="fas fa-external-link-alt"></i> Demo</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <section id="contact" class="contact">
     <div class="container">
         <div class="section-header">
@@ -313,16 +349,16 @@
                 <div class="social-media">
                     <h3>Redes Sociais</h3>
                     <div class="social-links">
-                        <a href="https://github.com/DavidAssuncaoPereira" class="social-link" target="_blank">
+                        <a href="https://github.com/DavidAssuncaoPereira" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="https://www.linkedin.com/in/david-pereira-068336346/" class="social-link" target="_blank">
+                        <a href="https://www.linkedin.com/in/david-pereira-068336346/" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
                             <i class="fab fa-linkedin"></i>
                         </a>
-                        <a href="https://x.com/david0_0pereira" class="social-link" target="_blank">
+                        <a href="https://x.com/david0_0pereira" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
                             <i class="fab fa-twitter"></i>
                         </a>
-                        <a href="https://www.instagram.com/david._.pereira__?igsh=MXJqMzcxM3BwYTZldg==" class="social-link" target="_blank">
+                        <a href="https://www.instagram.com/david._.pereira__?igsh=MXJqMzcxM3BwYTZldg==" class="social-link" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
                     </div>
@@ -371,6 +407,7 @@
                 <a href="#home">Início</a>
                 <a href="#about">Sobre</a>
                 <a href="#skills">Habilidades</a>
+                <a href="#projects">Projetos</a>
                 <a href="#contact">Contacto</a>
             </div>
 
@@ -382,7 +419,7 @@
     </div>
 </footer>
 
-<button class="back-to-top" id="backToTop">
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
     <i class="fas fa-chevron-up"></i>
 </button>
 
