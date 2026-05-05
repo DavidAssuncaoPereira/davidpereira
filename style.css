@@ -183,7 +183,7 @@ p {
     border-top-color: var(--primary-color);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-bottom: var(--spacing-lg);
+    margin: 0 auto var(--spacing-lg);
 }
 
 @keyframes spin {
