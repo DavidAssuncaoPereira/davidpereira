@@ -1,27 +1,16 @@
 # Site Pessoal - David Pereira
 
 Um site pessoal moderno e responsivo para mostrar meus projetos e habilidades como desenvolvedor web.
-
-## Características
-
-- ✅ Design moderno e responsivo
-- ✅ Modo claro/escuro
-- ✅ Animações suaves
-- ✅ Formulário de contato funcional
-- ✅ Portfolio de projetos
-- ✅ SEO otimizado
-- ✅ Performance otimizada
-
+---
 ## Tecnologias Utilizadas
 
-- HTML5
-- CSS3 (com variáveis CSS)
+- HTML
+- CSS
 - JavaScript Vanilla
 - Font Awesome (ícones)
 - Google Fonts (Inter)
 
 ## Como Usar
-
 1. Clone ou baixe os arquivos
 2. Abra `index.html` no navegador
 3. Personalize o conteúdo no HTML
