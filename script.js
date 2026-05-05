@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
     initTypedText();
     initCounterAnimation();
     initScrollToTop();
-    initActiveNavLinks();
     initSkillBars();
     initContactForm(); // Inicia o formulário de contacto
 
@@ -195,28 +194,6 @@ function initScrollToTop() {
 
     backToTopBtn.addEventListener('click', () => {
         window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-}
-
-// ===== ACTIVE NAV LINKS =====
-function initActiveNavLinks() {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-
-    window.addEventListener('scroll', () => {
-        let current = '';
-        sections.forEach(section => {
-            const sectionTop = section.offsetTop;
-            if (scrollY >= (sectionTop - 150)) {
-                current = section.getAttribute('id');
-            }
-        });
-        navLinks.forEach(link => {
-            link.classList.remove('active');
-            if (link.getAttribute('href') === `#${current}`) {
-                link.classList.add('active');
-            }
-        });
     });
 }
 
