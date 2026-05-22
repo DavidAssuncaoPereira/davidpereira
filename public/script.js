@@ -1,16 +1,5 @@
 // ===== DOM CONTENT LOADED =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Loading Screen
-    setTimeout(() => {
-        const loading = document.getElementById('loading');
-        if (loading) {
-            loading.style.opacity = '0';
-            setTimeout(() => {
-                loading.style.display = 'none';
-            }, 500);
-        }
-    }, 1500);
-
     // Initialize components
     initThemeToggle();
     initMobileMenu();

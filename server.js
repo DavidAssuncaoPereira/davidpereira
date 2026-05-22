@@ -9,6 +9,8 @@ const bcrypt = require('bcryptjs');
 const helmet = require('helmet');
 const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
+const { body, validationResult } = require('express-validator');
+const cookieParser = require('cookie-parser');
 const db = require('./db');
 
 const app = express();
@@ -24,6 +26,7 @@ app.use(helmet({
     },
 }));
 app.use(xss());
+app.use(cookieParser());
 
 const limiter = rateLimit({
     windowMs: 15 * 60 * 1000, // 15 minutes
@@ -156,15 +159,17 @@ app.get('/api/auth/status', (req, res) => {
 });
 
 // Register
-app.post('/api/register', async (req, res) => {
+app.post('/api/register', [
+    body('username').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 3, max: 20 }).trim().escape(),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters').escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: errors.array()[0].msg });
+    }
+
     const { username, password } = req.body;
     try {
-        if (!username || !password) {
-            return res.status(400).json({ error: 'Username and password required' });
-        }
-        if (password.length < 6) {
-            return res.status(400).json({ error: 'Password must be at least 6 characters' });
-        }
         const hashedPassword = await bcrypt.hash(password, 10);
         await db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword]);
         res.status(201).json({ message: 'User registered successfully' });
@@ -179,7 +184,10 @@ app.post('/api/register', async (req, res) => {
 });
 
 // Login
-app.post('/api/login', async (req, res) => {
+app.post('/api/login', [
+    body('username').trim().escape(),
+    body('password').escape()
+], async (req, res) => {
     const { username, password } = req.body;
     try {
         const [rows] = await db.query('SELECT * FROM users WHERE username = ?', [username]);
@@ -234,7 +242,17 @@ app.get('/api/admin/users', isAdmin, async (req, res) => {
 });
 
 // Contact Form
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', [
+    body('name').trim().isLength({ min: 2 }).escape(),
+    body('email').isEmail().normalizeEmail(),
+    body('subject').trim().isLength({ min: 2 }).escape(),
+    body('message').trim().isLength({ min: 5 }).escape()
+], async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json({ error: 'Please provide valid input' });
+    }
+
     const { name, email, subject, message } = req.body;
     try {
         await db.query('INSERT INTO contacts (name, email, subject, message) VALUES (?, ?, ?, ?)',
