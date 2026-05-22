@@ -11,9 +11,66 @@ const xss = require('xss-clean');
 const rateLimit = require('express-rate-limit');
 const { body, validationResult } = require('express-validator');
 const cookieParser = require('cookie-parser');
+const multer = require('multer');
+const crypto = require('crypto');
+const fs = require('fs');
 const db = require('./db');
 
 const app = express();
+
+// Ensure upload directories exist
+if (!fs.existsSync("public/uploads/profiles")) fs.mkdirSync("public/uploads/profiles", { recursive: true });
+if (!fs.existsSync("public/uploads/sensitive")) fs.mkdirSync("public/uploads/sensitive", { recursive: true });
+
+// Multer Setup
+const profileStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, 'public/uploads/profiles'),
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, file.fieldname + '-' + uniqueSuffix + path.extname(file.originalname));
+    }
+});
+const uploadProfile = multer({
+    storage: profileStorage,
+    limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+    fileFilter: (req, file, cb) => {
+        if (file.mimetype.startsWith('image/')) cb(null, true);
+        else cb(new Error('Only images allowed'));
+    }
+});
+
+const sensitiveStorage = multer.diskStorage({
+    destination: (req, file, cb) => cb(null, 'public/uploads/sensitive'),
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, 'secret-' + uniqueSuffix);
+    }
+});
+const uploadSensitive = multer({ storage: sensitiveStorage });
+
+// Encryption Helper
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '32-character-secret-key-1234567890'; // Must be 32 chars
+const IV_LENGTH = 16;
+
+function encrypt(text) {
+    if (!text) return null;
+    let iv = crypto.randomBytes(IV_LENGTH);
+    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+    let encrypted = cipher.update(text);
+    encrypted = Buffer.concat([encrypted, cipher.final()]);
+    return iv.toString('hex') + ':' + encrypted.toString('hex');
+}
+
+function decrypt(text) {
+    if (!text) return null;
+    let textParts = text.split(':');
+    let iv = Buffer.from(textParts.shift(), 'hex');
+    let encryptedText = Buffer.from(textParts.join(':'), 'hex');
+    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+    let decrypted = decipher.update(encryptedText);
+    decrypted = Buffer.concat([decrypted, decipher.final()]);
+    return decrypted.toString();
+}
 
 // Security Middleware
 app.use(helmet({
@@ -159,7 +216,7 @@ app.get('/api/auth/status', (req, res) => {
 });
 
 // Register
-app.post('/api/register', [
+app.post('/api/register', uploadProfile.single('profilePic'), [
     body('username').isAlphanumeric().withMessage('Username must be alphanumeric').isLength({ min: 3, max: 20 }).trim().escape(),
     body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters').escape()
 ], async (req, res) => {
@@ -169,9 +226,12 @@ app.post('/api/register', [
     }
 
     const { username, password } = req.body;
+    const profilePic = req.file ? `/uploads/profiles/${req.file.filename}` : null;
+
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        await db.query('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword]);
+        await db.query('INSERT INTO users (username, password, profile_pic) VALUES (?, ?, ?)',
+            [username, hashedPassword, profilePic]);
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
         if (error.code === 'ER_DUP_ENTRY') {
@@ -234,10 +294,111 @@ app.get('/api/admin/contacts', isAdmin, async (req, res) => {
 
 app.get('/api/admin/users', isAdmin, async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT id, username, created_at FROM users WHERE role != "admin"');
+        const [rows] = await db.query('SELECT id, username, profile_pic, created_at FROM users WHERE role != "admin"');
         res.json(rows);
     } catch (error) {
         res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// --- Admin Personal Features ---
+
+// Notes
+app.get('/api/admin/notes', isAdmin, async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM notes ORDER BY created_at DESC');
+        const decryptedNotes = rows.map(note => ({
+            ...note,
+            content: decrypt(note.content)
+        }));
+        res.json(decryptedNotes);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/api/admin/notes', isAdmin, async (req, res) => {
+    const { title, content } = req.body;
+    try {
+        const encryptedContent = encrypt(content);
+        await db.query('INSERT INTO notes (title, content) VALUES (?, ?)', [title, encryptedContent]);
+        res.json({ message: 'Note saved' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Finances
+app.get('/api/admin/finances', isAdmin, async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM financial_records ORDER BY date DESC');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/api/admin/finances', isAdmin, async (req, res) => {
+    const { description, amount, type, source, date } = req.body;
+    try {
+        await db.query('INSERT INTO financial_records (description, amount, type, source, date) VALUES (?, ?, ?, ?, ?)',
+            [description, amount, type, source, date]);
+        res.json({ message: 'Financial record saved' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+// Sensitive Files
+app.get('/api/admin/files', isAdmin, async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT id, original_name, mimetype, size, created_at FROM sensitive_files ORDER BY created_at DESC');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/api/admin/files', isAdmin, uploadSensitive.single('file'), async (req, res) => {
+    if (!req.file) return res.status(400).json({ error: 'No file uploaded' });
+
+    try {
+        const filePath = req.file.path;
+        const fileContent = fs.readFileSync(filePath);
+        const encryptedContent = encrypt(fileContent.toString('hex')); // Store as hex for simplicity in this helper
+
+        fs.writeFileSync(filePath, encryptedContent);
+
+        await db.query(
+            'INSERT INTO sensitive_files (filename, original_name, mimetype, size) VALUES (?, ?, ?, ?)',
+            [req.file.filename, req.file.originalname, req.file.mimetype, req.file.size]
+        );
+
+        res.json({ message: 'File uploaded and encrypted' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Encryption failed' });
+    }
+});
+
+app.get('/api/admin/files/download/:id', isAdmin, async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM sensitive_files WHERE id = ?', [req.params.id]);
+        if (rows.length === 0) return res.status(404).json({ error: 'File not found' });
+
+        const file = rows[0];
+        const filePath = path.join(__dirname, 'public/uploads/sensitive', file.filename);
+
+        const encryptedContent = fs.readFileSync(filePath, 'utf8');
+        const decryptedHex = decrypt(encryptedContent);
+        const decryptedContent = Buffer.from(decryptedHex, 'hex');
+
+        res.setHeader('Content-Type', file.mimetype);
+        res.setHeader('Content-Disposition', `attachment; filename="${file.original_name}"`);
+        res.send(decryptedContent);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Decryption failed' });
     }
 });
 

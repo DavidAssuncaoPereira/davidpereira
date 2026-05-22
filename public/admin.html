@@ -5,106 +5,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - David Pereira</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
     <link rel="stylesheet" href="style.css">
     <style>
-        .admin-container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-        .admin-grid {
+        .admin-layout {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
+            grid-template-columns: 250px 1fr;
+            min-height: 100vh;
         }
-        .admin-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            padding: 1.5rem;
-            box-shadow: var(--shadow);
-            height: 600px;
-            overflow-y: auto;
+        .admin-sidebar {
+            background: var(--bg-secondary);
+            padding: 2rem 1rem;
+            border-right: 1px solid var(--border-color);
         }
-        .admin-card h3 {
-            margin-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 0.5rem;
+        .admin-nav-item {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            border-radius: var(--radius-md);
+            margin-bottom: 0.5rem;
+            transition: all 0.3s;
         }
-        .contact-item, .chat-user-item {
-            padding: 1rem;
-            border-bottom: 1px solid var(--border-color);
-            cursor: pointer;
-        }
-        .contact-item:hover, .chat-user-item:hover {
-            background: var(--bg-color);
-        }
-        .chat-window {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            width: 400px;
-            height: 500px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 15px;
-            box-shadow: var(--shadow-lg);
-            display: none;
-            flex-direction: column;
-            z-index: 1000;
-        }
-        .chat-window-header {
-            padding: 1rem;
+        .admin-nav-item:hover, .admin-nav-item.active {
             background: var(--primary-color);
             color: white;
-            border-top-left-radius: 15px;
-            border-top-right-radius: 15px;
-            display: flex;
-            justify-content: space-between;
         }
-        .chat-window-messages {
-            flex: 1;
-            padding: 1rem;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+        .admin-main {
+            padding: 2rem;
+            background: var(--bg-primary);
         }
-        .chat-window-input {
+        .admin-card {
+            background: var(--bg-secondary);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+        .admin-tab-content {
+            display: none;
+        }
+        .admin-tab-content.active {
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        th, td {
             padding: 1rem;
-            display: flex;
-            gap: 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .profile-img-sm {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            object-fit: cover;
+            vertical-align: middle;
+        }
+        #calendar {
+            max-height: 600px;
+            margin-top: 1rem;
         }
     </style>
 </head>
 <body>
-    <nav class="navbar">
-        <div class="container">
-            <a href="index.html" class="logo">
-                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
-            </a>
-            <ul class="nav-links">
-                <li><a href="index.html" class="nav-link">Início</a></li>
-            </ul>
-        </div>
-    </nav>
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <h2 style="margin-bottom: 2rem;">Admin</h2>
+            <nav>
+                <a href="#" class="admin-nav-item active" data-tab="dashboard">Dashboard</a>
+                <a href="#" class="admin-nav-item" data-tab="contacts">Contactos</a>
+                <a href="#" class="admin-nav-item" data-tab="chat">Chat</a>
+                <a href="#" class="admin-nav-item" data-tab="notes">Notas</a>
+                <a href="#" class="admin-nav-item" data-tab="files">Ficheiros</a>
+                <a href="#" class="admin-nav-item" data-tab="finances">Finanças</a>
+                <a href="#" class="admin-nav-item" data-tab="calendar">Calendário</a>
+                <a href="index.html" class="admin-nav-item">Voltar ao Site</a>
+            </nav>
+        </aside>
 
-    <div class="admin-container">
-        <div class="section-header">
-            <h2>Painel de <span class="highlight">Administração</span></h2>
-        </div>
+        <main class="admin-main">
+            <!-- Dashboard Tab -->
+            <div id="dashboard" class="admin-tab-content active">
+                <h2>Bem-vindo, David</h2>
+                <div class="grid" style="display:grid; grid-template-columns: repeat(2, 1fr); gap:1rem; margin-top:2rem;">
+                    <div class="admin-card">
+                        <h3>Estatísticas Gerais</h3>
+                        <p><strong>Contactos:</strong> <span id="contactCount">0</span></p>
+                        <p><strong>Utilizadores:</strong> <span id="userCount">0</span></p>
+                    </div>
+                    <div class="admin-card">
+                        <h3>Resumo Financeiro</h3>
+                        <p><strong>Total Banco:</strong> <span id="bankBalance">0.00 €</span></p>
+                        <p><strong>Total Dinheiro Vivo:</strong> <span id="cashBalance">0.00 €</span></p>
+                        <hr style="margin:0.5rem 0; border:0; border-top:1px solid var(--border-color);">
+                        <p><strong>Saldo Geral:</strong> <span id="totalBalance" style="font-weight:bold;">0.00 €</span></p>
+                    </div>
+                </div>
+            </div>
 
-        <div class="admin-grid">
-            <div class="admin-card">
-                <h3><i class="fas fa-envelope"></i> Contactos Recebidos</h3>
-                <div id="contactsList"></div>
+            <!-- Contacts Tab -->
+            <div id="contacts" class="admin-tab-content">
+                <h2>Mensagens de Contacto</h2>
+                <div id="contactsList" class="admin-card"></div>
             </div>
-            <div class="admin-card">
-                <h3><i class="fas fa-comments"></i> Conversas Ativas</h3>
-                <div id="usersList"></div>
+
+            <!-- Chat Tab -->
+            <div id="chat" class="admin-tab-content">
+                <h2>Chat com Utilizadores</h2>
+                <div id="usersList" class="admin-card"></div>
             </div>
-        </div>
+
+            <!-- Notes Tab -->
+            <div id="notes" class="admin-tab-content">
+                <h2>Notas Pessoais (Encriptadas)</h2>
+                <form id="noteForm" class="admin-card">
+                    <input type="text" id="noteTitle" placeholder="Título" required style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <textarea id="noteContent" placeholder="Conteúdo sensível..." required style="width:100%; height:100px; padding:0.5rem;"></textarea>
+                    <button type="submit" class="btn btn-primary">Guardar Nota</button>
+                </form>
+                <div id="notesList"></div>
+            </div>
+
+            <!-- Files Tab -->
+            <div id="files" class="admin-tab-content">
+                <h2>Ficheiros Sensíveis (Encriptados)</h2>
+                <form id="fileForm" class="admin-card">
+                    <input type="file" id="fileInput" required style="padding:0.5rem;">
+                    <button type="submit" class="btn btn-primary">Upload Seguro</button>
+                </form>
+                <div id="filesList" class="admin-card"></div>
+            </div>
+
+            <!-- Finances Tab -->
+            <div id="finances" class="admin-tab-content">
+                <h2>Gestão Financeira</h2>
+                <form id="financeForm" class="admin-card">
+                    <input type="text" id="finDesc" placeholder="Descrição" required style="padding:0.5rem;">
+                    <input type="number" id="finAmount" step="0.01" placeholder="Quantia" required style="padding:0.5rem;">
+                    <select id="finType" style="padding:0.5rem;">
+                        <option value="income">Entrada</option>
+                        <option value="expense">Saída</option>
+                    </select>
+                    <select id="finSource" style="padding:0.5rem;">
+                        <option value="bank">Banco</option>
+                        <option value="cash">Dinheiro Vivo</option>
+                    </select>
+                    <input type="date" id="finDate" required style="padding:0.5rem;">
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
+                <div class="admin-card">
+                    <table id="finTable">
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Valor</th>
+                                <th>Fonte</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Calendar Tab -->
+            <div id="calendar-tab" class="admin-tab-content">
+                <h2>Meu Calendário</h2>
+                <div id="calendar" class="admin-card"></div>
+            </div>
+        </main>
     </div>
 
+    <!-- Chat Window (Same as before) -->
     <div id="adminChatWindow" class="chat-window">
         <div class="chat-window-header">
             <span id="chatTitle">Chat</span>
@@ -117,10 +193,29 @@
         </form>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script>
         let selectedUserId = null;
         const socket = io();
+
+        // Tab Switching Logic
+        document.querySelectorAll('.admin-nav-item[data-tab]').forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelectorAll('.admin-nav-item').forEach(i => i.classList.remove('active'));
+                document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.remove('active'));
+
+                item.classList.add('active');
+                const tabId = item.getAttribute('data-tab');
+                if (tabId === 'calendar') {
+                    document.getElementById('calendar-tab').classList.add('active');
+                    renderCalendar();
+                } else {
+                    document.getElementById(tabId).classList.add('active');
+                }
+            });
+        });
 
         async function initAdmin() {
             const res = await fetch('/api/auth/status');
@@ -129,10 +224,16 @@
                 window.location.href = 'index.html';
                 return;
             }
-
             socket.emit('joinAdmin');
+            loadAll();
+        }
+
+        function loadAll() {
             loadContacts();
             loadUsers();
+            loadNotes();
+            loadFiles();
+            loadFinances();
         }
 
         function escapeHTML(str) {
@@ -144,41 +245,141 @@
         async function loadContacts() {
             const res = await fetch('/api/admin/contacts');
             const contacts = await res.json();
+            document.getElementById('contactCount').textContent = contacts.length;
             const list = document.getElementById('contactsList');
-            list.innerHTML = '';
-
-            contacts.forEach(c => {
-                const div = document.createElement('div');
-                div.className = 'contact-item';
-                div.innerHTML = `
+            list.innerHTML = contacts.map(c => `
+                <div class="contact-item" style="border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
                     <strong>${escapeHTML(c.name)}</strong> (${escapeHTML(c.email)})<br>
-                    <small>${escapeHTML(c.subject)}</small><br>
-                    <p style="font-size:0.8rem; margin-top:0.5rem;">${escapeHTML(c.message)}</p>
-                `;
-                list.appendChild(div);
-            });
+                    <small>${escapeHTML(c.subject)}</small>
+                    <p>${escapeHTML(c.message)}</p>
+                </div>
+            `).join('');
         }
 
         async function loadUsers() {
             const res = await fetch('/api/admin/users');
             const users = await res.json();
+            document.getElementById('userCount').textContent = users.length;
             const list = document.getElementById('usersList');
-            list.innerHTML = '';
-
-            users.forEach(u => {
-                const div = document.createElement('div');
-                div.className = 'chat-user-item';
-                div.innerHTML = `<i class="fas fa-user"></i> ${escapeHTML(u.username)}`;
-                div.onclick = () => openChat(u.id, u.username);
-                list.appendChild(div);
-            });
+            list.innerHTML = users.map(u => `
+                <div class="chat-user-item" onclick="openChat(${u.id}, '${u.username}')" style="cursor:pointer; padding:1rem; border-bottom:1px solid var(--border-color);">
+                    <img src="${u.profile_pic || 'https://via.placeholder.com/30'}" class="profile-img-sm">
+                    ${escapeHTML(u.username)}
+                </div>
+            `).join('');
         }
 
+        async function loadNotes() {
+            const res = await fetch('/api/admin/notes');
+            const notes = await res.json();
+            const list = document.getElementById('notesList');
+            list.innerHTML = notes.map(n => `
+                <div class="admin-card">
+                    <h4>${escapeHTML(n.title)}</h4>
+                    <p style="white-space: pre-wrap;">${escapeHTML(n.content)}</p>
+                </div>
+            `).join('');
+        }
+
+        async function loadFiles() {
+            const res = await fetch('/api/admin/files');
+            const files = await res.json();
+            const list = document.getElementById('filesList');
+            list.innerHTML = files.map(f => `
+                <div style="padding:0.5rem; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between;">
+                    <span>${escapeHTML(f.original_name)} (${(f.size/1024).toFixed(1)} KB)</span>
+                    <a href="/api/admin/files/download/${f.id}" target="_blank" class="btn btn-secondary" style="padding:0.2rem 0.5rem; font-size:0.8rem;">Baixar</a>
+                </div>
+            `).join('');
+        }
+
+        async function loadFinances() {
+            const res = await fetch('/api/admin/finances');
+            const data = await res.json();
+            let total = 0;
+            let bank = 0;
+            let cash = 0;
+            const tbody = document.querySelector('#finTable tbody');
+            tbody.innerHTML = '';
+            data.forEach(f => {
+                const amount = parseFloat(f.amount);
+                const change = (f.type === 'income' ? amount : -amount);
+                total += change;
+                if (f.source === 'bank') bank += change;
+                if (f.source === 'cash') cash += change;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${new Date(f.date).toLocaleDateString()}</td>
+                    <td>${escapeHTML(f.description)}</td>
+                    <td style="color: ${f.type === 'income' ? 'green' : 'red'}">${f.type === 'income' ? '+' : '-'}${amount.toFixed(2)} €</td>
+                    <td>${f.source === 'bank' ? '<i class="fas fa-university"></i> Banco' : '<i class="fas fa-wallet"></i> Dinheiro Vivo'}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+            document.getElementById('totalBalance').textContent = total.toFixed(2) + ' €';
+            document.getElementById('bankBalance').textContent = bank.toFixed(2) + ' €';
+            document.getElementById('cashBalance').textContent = cash.toFixed(2) + ' €';
+        }
+
+        // Form Submissions
+        document.getElementById('noteForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const title = document.getElementById('noteTitle').value;
+            const content = document.getElementById('noteContent').value;
+            await fetch('/api/admin/notes', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title, content })
+            });
+            document.getElementById('noteForm').reset();
+            loadNotes();
+        });
+
+        document.getElementById('fileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData();
+            formData.append('file', document.getElementById('fileInput').files[0]);
+
+            await fetch('/api/admin/files', {
+                method: 'POST',
+                body: formData
+            });
+            document.getElementById('fileForm').reset();
+            loadFiles();
+        });
+
+        document.getElementById('financeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const description = document.getElementById('finDesc').value;
+            const amount = document.getElementById('finAmount').value;
+            const type = document.getElementById('finType').value;
+            const source = document.getElementById('finSource').value;
+            const date = document.getElementById('finDate').value;
+            await fetch('/api/admin/finances', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ description, amount, type, source, date })
+            });
+            document.getElementById('financeForm').reset();
+            loadFinances();
+        });
+
+        function renderCalendar() {
+            const calendarEl = document.getElementById('calendar');
+            const calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                locale: 'pt'
+            });
+            calendar.render();
+        }
+
+        // Chat Logic (Unchanged from before)
         function openChat(userId, username) {
             selectedUserId = userId;
             document.getElementById('chatTitle').textContent = `Chat com ${username}`;
             document.getElementById('adminChatWindow').style.display = 'flex';
-            socket.emit('join', userId); // Join the user's room to receive/send messages
+            socket.emit('join', userId);
         }
 
         function closeChat() {
@@ -187,8 +388,8 @@
 
         socket.on('messageHistory', (history) => {
             if (selectedUserId) {
-                const chatContainer = document.getElementById('adminChatMessages');
-                chatContainer.innerHTML = '';
+                const container = document.getElementById('adminChatMessages');
+                container.innerHTML = '';
                 history.forEach(msg => {
                     const div = document.createElement('div');
                     div.style.alignSelf = msg.is_from_admin ? 'flex-end' : 'flex-start';
@@ -198,15 +399,15 @@
                     div.style.borderRadius = '10px';
                     div.style.maxWidth = '80%';
                     div.textContent = msg.message;
-                    chatContainer.appendChild(div);
+                    container.appendChild(div);
                 });
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                container.scrollTop = container.scrollHeight;
             }
         });
 
         socket.on('receiveMessage', (msg) => {
             if (selectedUserId == msg.user_id) {
-                const chatContainer = document.getElementById('adminChatMessages');
+                const container = document.getElementById('adminChatMessages');
                 const div = document.createElement('div');
                 div.style.alignSelf = msg.is_from_admin ? 'flex-end' : 'flex-start';
                 div.style.background = msg.is_from_admin ? 'var(--primary-color)' : 'var(--bg-color)';
@@ -215,25 +416,16 @@
                 div.style.borderRadius = '10px';
                 div.style.maxWidth = '80%';
                 div.textContent = msg.message;
-                chatContainer.appendChild(div);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
+                container.appendChild(div);
+                container.scrollTop = container.scrollHeight;
             }
-        });
-
-        socket.on('newUserMessage', (msg) => {
-            // Optional: alert or highlight user in list
-            console.log('New message from user:', msg.user_id);
         });
 
         document.getElementById('adminChatForm').addEventListener('submit', (e) => {
             e.preventDefault();
             const input = document.getElementById('adminMessageInput');
             if (input.value && selectedUserId) {
-                socket.emit('sendMessage', {
-                    userId: selectedUserId,
-                    message: input.value,
-                    isAdmin: true
-                });
+                socket.emit('sendMessage', { userId: selectedUserId, message: input.value });
                 input.value = '';
             }
         });

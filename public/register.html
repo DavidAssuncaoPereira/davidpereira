@@ -33,6 +33,10 @@
                         <div class="form-group">
                             <input type="password" name="password" placeholder="Palavra-passe" required>
                         </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:0.5rem; font-size:0.9rem; color:var(--text-secondary);">Foto de Perfil (Opcional)</label>
+                            <input type="file" name="profilePic" accept="image/*" style="padding:0.5rem;">
+                        </div>
                         <p style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">
                             Ao registar-se, os seus dados serão armazenados de forma segura e utilizados apenas para autenticação e chat.
                         </p>
@@ -49,12 +53,10 @@
         document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData);
 
             const res = await fetch('/api/register', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: formData
             });
 
             if (res.ok) {
