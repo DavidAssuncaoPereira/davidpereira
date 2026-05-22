@@ -1,0 +1,26 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: david_db
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_USER: david_user
+      MYSQL_PASSWORD: david_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: db
+      DB_USER: david_user
+      DB_PASSWORD: david_password
+      DB_NAME: david_db
+      SESSION_SECRET: some_random_secret
+    depends_on:
+      - db

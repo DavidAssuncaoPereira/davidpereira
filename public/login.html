@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - David Pereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Entrar na sua <span class="highlight">Conta</span></h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form" style="max-width: 500px; margin: 0 auto;">
+                    <form id="loginForm">
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="Utilizador" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" placeholder="Palavra-passe" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </form>
+                    <p style="margin-top: 1rem; text-align: center;">Não tem conta? <a href="register.html">Registe-se aqui</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            const res = await fetch('/api/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            if (res.ok) {
+                window.location.href = 'index.html';
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Erro no login');
+            }
+        });
+    </script>
+</body>
+</html>

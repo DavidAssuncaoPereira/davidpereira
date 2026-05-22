@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat - David Pereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+        }
+        .chat-messages {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .message {
+            max-width: 70%;
+            padding: 0.8rem 1.2rem;
+            border-radius: 15px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .message.sent {
+            align-self: flex-end;
+            background: var(--primary-color);
+            color: white;
+            border-bottom-right-radius: 2px;
+        }
+        .message.received {
+            align-self: flex-start;
+            background: var(--bg-color);
+            color: var(--text-color);
+            border-bottom-left-radius: 2px;
+            border: 1px solid var(--border-color);
+        }
+        .chat-input-area {
+            padding: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 1rem;
+        }
+        .chat-input-area input {
+            flex: 1;
+            padding: 0.8rem 1.2rem;
+            border: 1px solid var(--border-color);
+            border-radius: 25px;
+            background: var(--bg-color);
+            color: var(--text-color);
+        }
+        .chat-input-area button {
+            padding: 0.8rem 1.5rem;
+            border-radius: 25px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="chat-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Conversar com <span class="highlight">David</span></h2>
+            </div>
+            <div class="chat-container">
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will appear here -->
+                </div>
+                <form class="chat-input-area" id="chatForm">
+                    <input type="text" id="messageInput" placeholder="Escreva a sua mensagem..." required>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="script.js"></script>
+    <script>
+        let currentUser = null;
+        const socket = io();
+
+        async function checkAuth() {
+            const res = await fetch('/api/auth/status');
+            const data = await res.json();
+            if (!data.loggedIn) {
+                window.location.href = 'login.html';
+            } else {
+                currentUser = data.user;
+                socket.emit('join', currentUser.id);
+            }
+        }
+
+        const chatMessages = document.getElementById('chatMessages');
+        const chatForm = document.getElementById('chatForm');
+        const messageInput = document.getElementById('messageInput');
+
+        function appendMessage(msg) {
+            const div = document.createElement('div');
+            const isSent = (msg.is_from_admin && currentUser.role === 'admin') || (!msg.is_from_admin && currentUser.role !== 'admin');
+            div.className = `message ${isSent ? 'sent' : 'received'}`;
+            div.textContent = msg.message;
+            chatMessages.appendChild(div);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        socket.on('messageHistory', (history) => {
+            chatMessages.innerHTML = '';
+            history.forEach(appendMessage);
+        });
+
+        socket.on('receiveMessage', (msg) => {
+            appendMessage(msg);
+        });
+
+        chatForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const message = messageInput.value;
+            if (message && currentUser) {
+                socket.emit('sendMessage', {
+                    userId: currentUser.id,
+                    message: message
+                });
+                messageInput.value = '';
+            }
+        });
+
+        checkAuth();
+    </script>
+</body>
+</html>
