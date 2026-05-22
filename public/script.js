@@ -1,16 +1,5 @@
 // ===== DOM CONTENT LOADED =====
 document.addEventListener('DOMContentLoaded', function() {
-    // Loading Screen
-    setTimeout(() => {
-        const loading = document.getElementById('loading');
-        if (loading) {
-            loading.style.opacity = '0';
-            setTimeout(() => {
-                loading.style.display = 'none';
-            }, 500);
-        }
-    }, 1500);
-
     // Initialize components
     initThemeToggle();
     initMobileMenu();
@@ -20,6 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initScrollToTop();
     initSkillBars();
     initContactForm(); // Inicia o formulário de contacto
+    updateAuthUI(); // Atualiza a UI baseada na autenticação
 
     // Atualiza o ano no footer
     const currentYearSpan = document.getElementById('current-year');
@@ -214,26 +204,12 @@ function initSkillBars() {
     skillBars.forEach(bar => observer.observe(bar));
 }
 
-// ===== CONTACT FORM (EMAILJS) =====
+// ===== CONTACT FORM =====
 function initContactForm() {
-    // Verifica se a biblioteca carregou
-    if (typeof emailjs === 'undefined') {
-        console.error("Erro: EmailJS não carregou.");
-        return;
-    }
-
-    // --- CONFIGURAÇÃO (IDs) ---
-    // Se estes não forem os TEUS IDs, troca-os aqui!
-    const publicKey = "BBCZ878vA4NYImERi";
-    const serviceID = "service_esx5qci";
-    const templateID = "template_iw84fjm";
-
-    emailjs.init(publicKey);
-
     const form = document.getElementById("contactForm");
 
     if (form) {
-        form.addEventListener("submit", function(e) {
+        form.addEventListener("submit", async function(e) {
             e.preventDefault();
 
             // Botão a carregar...
@@ -242,18 +218,91 @@ function initContactForm() {
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A enviar...';
             btn.disabled = true;
 
-            emailjs.sendForm(serviceID, templateID, this)
-                .then(function() {
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+
+            try {
+                const res = await fetch('/api/contact', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                if (res.ok) {
                     alert("Mensagem enviada com sucesso!");
                     form.reset();
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                }, function(error) {
-                    alert("Erro ao enviar: " + JSON.stringify(error));
-                    console.error("Erro EmailJS:", error);
-                    btn.innerHTML = originalText;
-                    btn.disabled = false;
-                });
+                } else {
+                    alert("Erro ao enviar mensagem.");
+                }
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Erro de conexão.");
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         });
+    }
+}
+
+// ===== AUTH UI =====
+async function updateAuthUI() {
+    try {
+        const res = await fetch('/api/auth/status');
+        const data = await res.json();
+
+        const navLinks = document.querySelectorAll('.nav-links');
+        const mobileNavLinks = document.querySelector('#mobileMenu ul');
+
+        navLinks.forEach(nav => {
+            const contactLink = nav.querySelector('a[href="contact.html"]')?.parentElement;
+
+            // Avoid duplication if the script runs multiple times
+            if (nav.dataset.authUpdated === 'true' && !data.loggedIn) return;
+
+            // Remove existing auth links
+            nav.querySelectorAll('.auth-link').forEach(l => l.remove());
+
+            if (data.loggedIn) {
+                // Add Chat and Logout
+                const chatLi = document.createElement('li');
+                chatLi.className = 'auth-link';
+                chatLi.innerHTML = '<a href="chat.html" class="nav-link">Chat</a>';
+                nav.insertBefore(chatLi, contactLink ? contactLink.nextSibling : null);
+
+                if (data.user.role === 'admin') {
+                    const adminLi = document.createElement('li');
+                    adminLi.className = 'auth-link';
+                    adminLi.innerHTML = '<a href="admin.html" class="nav-link">Admin</a>';
+                    nav.insertBefore(adminLi, chatLi.nextSibling);
+                }
+
+                const logoutLi = document.createElement('li');
+                logoutLi.className = 'auth-link';
+                logoutLi.innerHTML = '<a href="#" id="logoutBtn" class="nav-link">Sair</a>';
+                nav.appendChild(logoutLi);
+
+                document.getElementById('logoutBtn')?.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    await fetch('/api/logout', { method: 'POST' });
+                    window.location.href = 'index.html';
+                });
+            } else {
+                // Add Login and Register
+                const loginLi = document.createElement('li');
+                loginLi.className = 'auth-link';
+                loginLi.innerHTML = '<a href="login.html" class="nav-link">Login</a>';
+                nav.appendChild(loginLi);
+
+                const registerLi = document.createElement('li');
+                registerLi.className = 'auth-link';
+                registerLi.innerHTML = '<a href="register.html" class="nav-link">Registar</a>';
+                nav.appendChild(registerLi);
+            }
+            nav.dataset.authUpdated = 'true';
+        });
+
+    } catch (error) {
+        console.error("Erro ao verificar auth status:", error);
     }
 }

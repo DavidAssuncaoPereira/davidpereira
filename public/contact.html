@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - David Pereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Entrar em <span class="highlight">Contacto</span></h2>
+                <p>Tem alguma pergunta ou proposta? Envie uma mensagem!</p>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <input type="text" name="name" placeholder="Nome" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" name="email" placeholder="Email" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Assunto" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Mensagem" required></textarea>
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">
+                            Ao enviar este formulário, concorda com o processamento dos seus dados apenas para fins de contacto. Os seus dados não serão partilhados com terceiros.
+                        </p>
+                        <button type="submit" class="btn btn-primary">Enviar Mensagem</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

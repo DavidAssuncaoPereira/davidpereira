@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registo - David Pereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Criar uma <span class="highlight">Conta</span></h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form" style="max-width: 500px; margin: 0 auto;">
+                    <form id="registerForm">
+                        <div class="form-group">
+                            <input type="text" name="username" placeholder="Utilizador" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="password" name="password" placeholder="Palavra-passe" required>
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:0.5rem; font-size:0.9rem; color:var(--text-secondary);">Foto de Perfil (Opcional)</label>
+                            <input type="file" name="profilePic" accept="image/*" style="padding:0.5rem;">
+                        </div>
+                        <p style="font-size: 0.8rem; color: var(--text-light); margin-bottom: 1rem;">
+                            Ao registar-se, os seus dados serão armazenados de forma segura e utilizados apenas para autenticação e chat.
+                        </p>
+                        <button type="submit" class="btn btn-primary">Registar</button>
+                    </form>
+                    <p style="margin-top: 1rem; text-align: center;">Já tem conta? <a href="login.html">Faça login aqui</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+
+            const res = await fetch('/api/register', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (res.ok) {
+                alert('Conta criada com sucesso! Pode fazer login.');
+                window.location.href = 'login.html';
+            } else {
+                const err = await res.json();
+                alert(err.error || 'Erro no registo');
+            }
+        });
+    </script>
+</body>
+</html>
