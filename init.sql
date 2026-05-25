@@ -56,6 +56,24 @@ CREATE TABLE IF NOT EXISTS sensitive_files (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE IF NOT EXISTS projects (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    image_url VARCHAR(255),
+    github_url VARCHAR(255),
+    demo_url VARCHAR(255),
+    technologies VARCHAR(255), -- Comma-separated
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS activity_logs (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    action VARCHAR(255) NOT NULL,
+    details TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
 -- Default Admin (password: admin123)
 -- Default Admin (password: c.ronaldo_7)
 INSERT INTO users (username, password, role)

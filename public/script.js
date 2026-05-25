@@ -270,6 +270,11 @@ async function updateAuthUI() {
                 chatLi.innerHTML = '<a href="chat.html" class="nav-link">Chat</a>';
                 nav.insertBefore(chatLi, contactLink ? contactLink.nextSibling : null);
 
+                const settingsLi = document.createElement('li');
+                settingsLi.className = 'auth-link';
+                settingsLi.innerHTML = '<a href="settings.html" class="nav-link">Definições</a>';
+                nav.insertBefore(settingsLi, chatLi.nextSibling);
+
                 if (data.user.role === 'admin') {
                     const adminLi = document.createElement('li');
                     adminLi.className = 'auth-link';

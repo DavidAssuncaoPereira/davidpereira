@@ -49,7 +49,7 @@ const sensitiveStorage = multer.diskStorage({
 const uploadSensitive = multer({ storage: sensitiveStorage });
 
 // Encryption Helper
-const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '32-character-secret-key-1234567890'; // Must be 32 chars
+const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY || '32_char_secret_key_for_aes_256_!'; // Must be exactly 32 chars
 const IV_LENGTH = 16;
 
 function encrypt(text) {
@@ -70,6 +70,14 @@ function decrypt(text) {
     let decrypted = decipher.update(encryptedText);
     decrypted = Buffer.concat([decrypted, decipher.final()]);
     return decrypted.toString();
+}
+
+async function logActivity(action, details) {
+    try {
+        await db.query('INSERT INTO activity_logs (action, details) VALUES (?, ?)', [action, details]);
+    } catch (error) {
+        console.error('Logging failed:', error);
+    }
 }
 
 // Security Middleware
@@ -260,6 +268,7 @@ app.post('/api/login', [
             return res.status(401).json({ error: 'Invalid credentials' });
         }
         req.session.user = { id: user.id, username: user.username, role: user.role };
+        await logActivity('Login', `User ${user.username} logged in`);
         res.json({ message: 'Logged in successfully', user: req.session.user });
     } catch (error) {
         console.error(error);
@@ -273,6 +282,42 @@ app.post('/api/logout', (req, res) => {
     res.json({ message: 'Logged out successfully' });
 });
 
+// User Settings
+app.post('/api/user/settings', uploadProfile.single('profilePic'), async (req, res) => {
+    if (!req.session.user) return res.status(401).json({ error: 'Unauthorized' });
+
+    const { password } = req.body;
+    const userId = req.session.user.id;
+    let query = 'UPDATE users SET ';
+    let params = [];
+
+    if (req.file) {
+        const profilePic = `/uploads/profiles/${req.file.filename}`;
+        query += 'profile_pic = ?, ';
+        params.push(profilePic);
+        req.session.user.profile_pic = profilePic;
+    }
+
+    if (password && password.length >= 6) {
+        const hashedPassword = await bcrypt.hash(password, 10);
+        query += 'password = ?, ';
+        params.push(hashedPassword);
+    }
+
+    // Remove trailing comma and space
+    if (params.length === 0) return res.json({ message: 'No changes' });
+
+    query = query.slice(0, -2) + ' WHERE id = ?';
+    params.push(userId);
+
+    try {
+        await db.query(query, params);
+        res.json({ message: 'Settings updated', user: req.session.user });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // Admin Middleware
 const isAdmin = (req, res, next) => {
     if (req.session.user && req.session.user.role === 'admin') {
@@ -283,6 +328,15 @@ const isAdmin = (req, res, next) => {
 };
 
 // Admin Routes
+app.get('/api/admin/logs', isAdmin, async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM activity_logs ORDER BY created_at DESC LIMIT 50');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 app.get('/api/admin/contacts', isAdmin, async (req, res) => {
     try {
         const [rows] = await db.query('SELECT * FROM contacts ORDER BY created_at DESC');
@@ -374,6 +428,7 @@ app.post('/api/admin/files', isAdmin, uploadSensitive.single('file'), async (req
             [req.file.filename, req.file.originalname, req.file.mimetype, req.file.size]
         );
 
+        await logActivity('File Upload', `Admin uploaded encrypted file: ${req.file.originalname}`);
         res.json({ message: 'File uploaded and encrypted' });
     } catch (error) {
         console.error(error);
@@ -399,6 +454,38 @@ app.get('/api/admin/files/download/:id', isAdmin, async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Decryption failed' });
+    }
+});
+
+// Projects CRUD
+app.get('/api/projects', async (req, res) => {
+    try {
+        const [rows] = await db.query('SELECT * FROM projects ORDER BY created_at DESC');
+        res.json(rows);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.post('/api/admin/projects', isAdmin, async (req, res) => {
+    const { title, description, image_url, github_url, demo_url, technologies } = req.body;
+    try {
+        await db.query(
+            'INSERT INTO projects (title, description, image_url, github_url, demo_url, technologies) VALUES (?, ?, ?, ?, ?, ?)',
+            [title, description, image_url, github_url, demo_url, technologies]
+        );
+        res.json({ message: 'Project added' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
+app.delete('/api/admin/projects/:id', isAdmin, async (req, res) => {
+    try {
+        await db.query('DELETE FROM projects WHERE id = ?', [req.params.id]);
+        res.json({ message: 'Project deleted' });
+    } catch (error) {
+        res.status(500).json({ error: 'Internal server error' });
     }
 });
 

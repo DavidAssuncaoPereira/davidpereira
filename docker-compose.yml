@@ -18,6 +18,9 @@ services:
     container_name: personal_website_app
     ports:
       - "3000:3000"
+    volumes:
+      - uploads_profiles:/app/public/uploads/profiles
+      - uploads_sensitive:/app/public/uploads/sensitive
     environment:
       DB_HOST: db
       DB_USER: root
@@ -43,3 +46,5 @@ services:
 
 volumes:
   db_data:
+  uploads_profiles:
+  uploads_sensitive:

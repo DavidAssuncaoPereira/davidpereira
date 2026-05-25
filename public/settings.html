@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Definições - David Pereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="nav-link">Início</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2>Minhas <span class="highlight">Definições</span></h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-form" style="max-width: 500px; margin: 0 auto;">
+                    <div id="currentUserInfo" style="text-align:center; margin-bottom:2rem;">
+                        <img id="currentProfilePic" src="https://via.placeholder.com/100" style="width:100px; height:100px; border-radius:50%; object-fit:cover; margin-bottom:1rem; border:3px solid var(--primary-color);">
+                        <h3 id="currentUsername">Utilizador</h3>
+                    </div>
+                    <form id="settingsForm">
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:0.5rem;">Nova Foto de Perfil</label>
+                            <input type="file" name="profilePic" accept="image/*">
+                        </div>
+                        <div class="form-group">
+                            <label style="display:block; margin-bottom:0.5rem;">Nova Palavra-passe</label>
+                            <input type="password" name="password" placeholder="Mínimo 6 caracteres">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Guardar Alterações</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+    <script>
+        async function loadSettings() {
+            const res = await fetch('/api/auth/status');
+            const data = await res.json();
+            if (!data.loggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+            document.getElementById('currentUsername').textContent = data.user.username;
+            if (data.user.profile_pic) {
+                document.getElementById('currentProfilePic').src = data.user.profile_pic;
+            }
+        }
+
+        document.getElementById('settingsForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const res = await fetch('/api/user/settings', {
+                method: 'POST',
+                body: formData
+            });
+            if (res.ok) {
+                alert('Definições atualizadas!');
+                location.reload();
+            } else {
+                alert('Erro ao atualizar definições.');
+            }
+        });
+
+        loadSettings();
+    </script>
+</body>
+</html>

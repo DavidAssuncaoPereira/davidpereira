@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css">
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         .admin-layout {
             display: grid;
@@ -77,8 +78,10 @@
             <h2 style="margin-bottom: 2rem;">Admin</h2>
             <nav>
                 <a href="#" class="admin-nav-item active" data-tab="dashboard">Dashboard</a>
+                <a href="#" class="admin-nav-item" data-tab="logs">Atividade</a>
                 <a href="#" class="admin-nav-item" data-tab="contacts">Contactos</a>
                 <a href="#" class="admin-nav-item" data-tab="chat">Chat</a>
+                <a href="#" class="admin-nav-item" data-tab="projects-tab">Projetos</a>
                 <a href="#" class="admin-nav-item" data-tab="notes">Notas</a>
                 <a href="#" class="admin-nav-item" data-tab="files">Ficheiros</a>
                 <a href="#" class="admin-nav-item" data-tab="finances">Finanças</a>
@@ -105,11 +108,27 @@
                         <p><strong>Saldo Geral:</strong> <span id="totalBalance" style="font-weight:bold;">0.00 €</span></p>
                     </div>
                 </div>
+                <div class="admin-card" style="margin-top:2rem;">
+                    <h3>Atividade Recente</h3>
+                    <div id="recentLogsWidget" style="font-size:0.85rem;"></div>
+                </div>
+                <div class="admin-card" style="margin-top:2rem;">
+                    <h3>Fluxo Financeiro</h3>
+                    <canvas id="financeChart" height="100"></canvas>
+                </div>
+            </div>
+
+            <!-- Activity Logs Tab -->
+            <div id="logs" class="admin-tab-content">
+                <h2>Registo de Atividade</h2>
+                <input type="text" id="logSearch" placeholder="Pesquisar logs..." style="width:100%; padding:0.5rem; margin-bottom:1rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+                <div id="logsList" class="admin-card" style="font-family: monospace; font-size: 0.9rem;"></div>
             </div>
 
             <!-- Contacts Tab -->
             <div id="contacts" class="admin-tab-content">
                 <h2>Mensagens de Contacto</h2>
+                <input type="text" id="contactSearch" placeholder="Pesquisar contactos..." style="width:100%; padding:0.5rem; margin-bottom:1rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
                 <div id="contactsList" class="admin-card"></div>
             </div>
 
@@ -117,6 +136,21 @@
             <div id="chat" class="admin-tab-content">
                 <h2>Chat com Utilizadores</h2>
                 <div id="usersList" class="admin-card"></div>
+            </div>
+
+            <!-- Projects Tab -->
+            <div id="projects-tab" class="admin-tab-content">
+                <h2>Gestão de Portfolio</h2>
+                <form id="projectForm" class="admin-card">
+                    <input type="text" id="projTitle" placeholder="Título" required style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <textarea id="projDesc" placeholder="Descrição" style="width:100%; height:80px; padding:0.5rem; margin-bottom:1rem;"></textarea>
+                    <input type="text" id="projImg" placeholder="URL da Imagem" style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <input type="text" id="projGithub" placeholder="URL Github" style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <input type="text" id="projDemo" placeholder="URL Demo" style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <input type="text" id="projTech" placeholder="Tecnologias (separadas por vírgula)" style="width:100%; margin-bottom:1rem; padding:0.5rem;">
+                    <button type="submit" class="btn btn-primary">Adicionar Projeto</button>
+                </form>
+                <div id="adminProjectsList"></div>
             </div>
 
             <!-- Notes Tab -->
@@ -142,7 +176,10 @@
 
             <!-- Finances Tab -->
             <div id="finances" class="admin-tab-content">
-                <h2>Gestão Financeira</h2>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+                    <h2>Gestão Financeira</h2>
+                    <button onclick="exportFinancesCSV()" class="btn btn-secondary"><i class="fas fa-file-export"></i> Exportar CSV</button>
+                </div>
                 <form id="financeForm" class="admin-card">
                     <input type="text" id="finDesc" placeholder="Descrição" required style="padding:0.5rem;">
                     <input type="number" id="finAmount" step="0.01" placeholder="Quantia" required style="padding:0.5rem;">
@@ -234,6 +271,8 @@
             loadNotes();
             loadFiles();
             loadFinances();
+            loadAdminProjects();
+            loadLogs();
         }
 
         function escapeHTML(str) {
@@ -242,10 +281,54 @@
             return div.innerHTML;
         }
 
+        let allLogs = [];
+        let allContacts = [];
+
+        async function loadLogs() {
+            const res = await fetch('/api/admin/logs');
+            allLogs = await res.json();
+            renderLogs(allLogs);
+        }
+
+        function renderLogs(logs) {
+            const list = document.getElementById('logsList');
+            const widget = document.getElementById('recentLogsWidget');
+
+            const logsHTML = logs.map(l => `
+                <div style="padding:0.3rem 0; border-bottom:1px solid var(--border-color);">
+                    <span style="color:var(--text-light);">[${new Date(l.created_at).toLocaleString()}]</span>
+                    <strong>${l.action}:</strong> ${escapeHTML(l.details)}
+                </div>
+            `).join('');
+
+            list.innerHTML = logsHTML;
+            if (widget) {
+                widget.innerHTML = logs.slice(0, 5).map(l => `
+                    <div style="padding:0.2rem 0; border-bottom:1px solid var(--border-color);">
+                        <small style="color:var(--text-light);">${new Date(l.created_at).toLocaleTimeString()}</small>
+                        <strong>${l.action}</strong>
+                    </div>
+                `).join('');
+            }
+        }
+
+        document.getElementById('logSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allLogs.filter(l =>
+                l.action.toLowerCase().includes(term) ||
+                l.details.toLowerCase().includes(term)
+            );
+            renderLogs(filtered);
+        });
+
         async function loadContacts() {
             const res = await fetch('/api/admin/contacts');
-            const contacts = await res.json();
-            document.getElementById('contactCount').textContent = contacts.length;
+            allContacts = await res.json();
+            document.getElementById('contactCount').textContent = allContacts.length;
+            renderContacts(allContacts);
+        }
+
+        function renderContacts(contacts) {
             const list = document.getElementById('contactsList');
             list.innerHTML = contacts.map(c => `
                 <div class="contact-item" style="border-bottom: 1px solid var(--border-color); padding: 1rem 0;">
@@ -255,6 +338,17 @@
                 </div>
             `).join('');
         }
+
+        document.getElementById('contactSearch').addEventListener('input', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = allContacts.filter(c =>
+                c.name.toLowerCase().includes(term) ||
+                c.email.toLowerCase().includes(term) ||
+                c.subject.toLowerCase().includes(term) ||
+                c.message.toLowerCase().includes(term)
+            );
+            renderContacts(filtered);
+        });
 
         async function loadUsers() {
             const res = await fetch('/api/admin/users');
@@ -293,20 +387,76 @@
             `).join('');
         }
 
+        async function loadAdminProjects() {
+            const res = await fetch('/api/projects');
+            const projects = await res.json();
+            const list = document.getElementById('adminProjectsList');
+            list.innerHTML = projects.map(p => `
+                <div class="admin-card" style="display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <strong>${escapeHTML(p.title)}</strong>
+                    </div>
+                    <button onclick="deleteProject(${p.id})" class="btn btn-secondary" style="background:var(--danger-color); color:white; border:none; padding:0.3rem 0.6rem;">Eliminar</button>
+                </div>
+            `).join('');
+        }
+
+        async function deleteProject(id) {
+            if (confirm('Tem a certeza?')) {
+                await fetch(`/api/admin/projects/${id}`, { method: 'DELETE' });
+                loadAdminProjects();
+            }
+        }
+
+        document.getElementById('projectForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const data = {
+                title: document.getElementById('projTitle').value,
+                description: document.getElementById('projDesc').value,
+                image_url: document.getElementById('projImg').value,
+                github_url: document.getElementById('projGithub').value,
+                demo_url: document.getElementById('projDemo').value,
+                technologies: document.getElementById('projTech').value
+            };
+            await fetch('/api/admin/projects', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            document.getElementById('projectForm').reset();
+            loadAdminProjects();
+        });
+
+        let financeChart = null;
+
+        let allFinances = [];
+
         async function loadFinances() {
             const res = await fetch('/api/admin/finances');
-            const data = await res.json();
+            allFinances = await res.json();
             let total = 0;
             let bank = 0;
             let cash = 0;
+
+            const chartLabels = [];
+            const chartDataIncome = [];
+            const chartDataExpense = [];
             const tbody = document.querySelector('#finTable tbody');
             tbody.innerHTML = '';
-            data.forEach(f => {
+            // Sort by date for chart
+            allFinances.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+            allFinances.forEach(f => {
                 const amount = parseFloat(f.amount);
                 const change = (f.type === 'income' ? amount : -amount);
                 total += change;
                 if (f.source === 'bank') bank += change;
                 if (f.source === 'cash') cash += change;
+
+                const dateStr = new Date(f.date).toLocaleDateString();
+                chartLabels.push(dateStr);
+                chartDataIncome.push(f.type === 'income' ? amount : 0);
+                chartDataExpense.push(f.type === 'expense' ? amount : 0);
 
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
@@ -320,6 +470,65 @@
             document.getElementById('totalBalance').textContent = total.toFixed(2) + ' €';
             document.getElementById('bankBalance').textContent = bank.toFixed(2) + ' €';
             document.getElementById('cashBalance').textContent = cash.toFixed(2) + ' €';
+
+            renderFinanceChart(chartLabels, chartDataIncome, chartDataExpense);
+        }
+
+        function exportFinancesCSV() {
+            const headers = ['Data', 'Descrição', 'Valor', 'Tipo', 'Fonte'];
+            const rows = allFinances.map(f => [
+                new Date(f.date).toLocaleDateString(),
+                f.description,
+                f.amount,
+                f.type,
+                f.source
+            ]);
+
+            let csvContent = "data:text/csv;charset=utf-8,"
+                + headers.join(",") + "\n"
+                + rows.map(e => e.join(",")).join("\n");
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "financas_david.csv");
+            document.body.appendChild(link);
+            link.click();
+        }
+
+        function renderFinanceChart(labels, income, expense) {
+            const ctx = document.getElementById('financeChart').getContext('2d');
+            if (financeChart) financeChart.destroy();
+            financeChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Entradas',
+                            data: income,
+                            borderColor: 'green',
+                            backgroundColor: 'rgba(0, 255, 0, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        },
+                        {
+                            label: 'Saídas',
+                            data: expense,
+                            borderColor: 'red',
+                            backgroundColor: 'rgba(255, 0, 0, 0.1)',
+                            fill: true,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true }
+                    }
+                }
+            });
         }
 
         // Form Submissions
