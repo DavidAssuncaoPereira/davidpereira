@@ -17,9 +17,15 @@ app.use(session({
     saveUninitialized: false
 }));
 
-// API: Setup Admin (Run once or manually)
+// Setup Default Admin via Environment Variable or disabled fallback
 app.get('/api/setup', async (req, res) => {
-    const hashedPassword = await bcrypt.hash('admin123', 10);
+    const setupToken = req.query.token;
+    if (setupToken !== process.env.SETUP_TOKEN) {
+        return res.status(403).json({ error: 'Forbidden. Invalid setup token.' });
+    }
+
+    const defaultAdminPassword = process.env.DEFAULT_ADMIN_PASSWORD || 'change_me_immediately_123';
+    const hashedPassword = await bcrypt.hash(defaultAdminPassword, 10);
     db.run('INSERT OR IGNORE INTO users (username, password, role) VALUES (?, ?, ?)', ['admin', hashedPassword, 'admin'], function(err) {
         if (err) return res.status(500).json({error: err.message});
         res.json({ message: 'Admin user created (if not exists)' });

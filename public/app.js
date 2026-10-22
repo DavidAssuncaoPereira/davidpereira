@@ -162,23 +162,34 @@ async function loadMessages() {
         const messages = await res.json();
         const chatBox = document.getElementById('chatBox');
 
-        let html = '';
-        messages.forEach(m => {
-            const isSent = m.sender_name === currentUser.username;
-            const msgClass = isSent ? 'msg-sent' : 'msg-received';
-            const senderInfo = isSent ? 'Você' : m.sender_name;
+        // Prevent XSS by constructing DOM elements instead of using innerHTML
+        const isDifferent = chatBox.children.length !== messages.length; // Basic diffing
+        if (isDifferent) {
+            chatBox.innerHTML = ''; // Clear once
+            messages.forEach(m => {
+                const isSent = m.sender_name === currentUser.username;
+                const msgClass = isSent ? 'msg-sent' : 'msg-received';
+                const senderInfo = isSent ? 'Você' : m.sender_name;
 
-            html += `
-                <div class="message ${msgClass}">
-                    <small><strong>${senderInfo}</strong> - ${new Date(m.timestamp).toLocaleTimeString()}</small><br>
-                    ${m.message}
-                </div>
-            `;
-        });
+                const div = document.createElement('div');
+                div.className = `message ${msgClass}`;
 
-        // Only update if changed (simplified check by length or just overwrite)
-        if (chatBox.innerHTML.length !== html.length) {
-            chatBox.innerHTML = html;
+                const small = document.createElement('small');
+                const strong = document.createElement('strong');
+                strong.textContent = senderInfo;
+                small.appendChild(strong);
+                small.appendChild(document.createTextNode(` - ${new Date(m.timestamp).toLocaleTimeString()}`));
+
+                const br = document.createElement('br');
+
+                const messageText = document.createTextNode(m.message); // Safe from XSS
+
+                div.appendChild(small);
+                div.appendChild(br);
+                div.appendChild(messageText);
+
+                chatBox.appendChild(div);
+            });
             chatBox.scrollTop = chatBox.scrollHeight;
         }
     } catch (err) {
