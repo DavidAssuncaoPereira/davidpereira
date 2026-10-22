@@ -107,7 +107,12 @@ async function initChat() {
     }
 
     loadMessages();
-    setInterval(loadMessages, 5000); // Polling simple every 5s
+
+    // Connect to WebSocket and listen for new messages
+    const socket = io();
+    socket.on('newMessage', () => {
+        loadMessages();
+    });
 
     const chatForm = document.getElementById('chatForm');
     chatForm.addEventListener('submit', async (e) => {
@@ -162,25 +167,36 @@ async function loadMessages() {
         const messages = await res.json();
         const chatBox = document.getElementById('chatBox');
 
-        let html = '';
+        // Prevent XSS by constructing DOM nodes
+        const fragment = document.createDocumentFragment();
+
         messages.forEach(m => {
             const isSent = m.sender_name === currentUser.username;
             const msgClass = isSent ? 'msg-sent' : 'msg-received';
             const senderInfo = isSent ? 'Você' : m.sender_name;
 
-            html += `
-                <div class="message ${msgClass}">
-                    <small><strong>${senderInfo}</strong> - ${new Date(m.timestamp).toLocaleTimeString()}</small><br>
-                    ${m.message}
-                </div>
-            `;
+            const div = document.createElement('div');
+            div.className = `message ${msgClass}`;
+
+            const small = document.createElement('small');
+            const strong = document.createElement('strong');
+            strong.textContent = senderInfo;
+
+            small.appendChild(strong);
+            small.appendChild(document.createTextNode(` - ${new Date(m.timestamp).toLocaleTimeString()}`));
+
+            div.appendChild(small);
+            div.appendChild(document.createElement('br'));
+            div.appendChild(document.createTextNode(m.message)); // Safe text injection
+
+            fragment.appendChild(div);
         });
 
-        // Only update if changed (simplified check by length or just overwrite)
-        if (chatBox.innerHTML.length !== html.length) {
-            chatBox.innerHTML = html;
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+        // Clear and append only if we have changes (very simple check for now, can improve later)
+        // Here we just re-render everything to be safe since we removed raw html length check
+        chatBox.innerHTML = '';
+        chatBox.appendChild(fragment);
+        chatBox.scrollTop = chatBox.scrollHeight;
     } catch (err) {
         console.error('Error loading messages', err);
     }

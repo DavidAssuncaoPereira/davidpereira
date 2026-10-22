@@ -1,18 +1,29 @@
+require('dotenv').config();
+
 const express = require('express');
 const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const path = require('path');
+const http = require('http');
+const { Server } = require('socket.io');
 const db = require('./db');
 
 const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
 const PORT = process.env.PORT || 3000;
+
+if (!process.env.SESSION_SECRET) {
+    console.error('FATAL ERROR: SESSION_SECRET is not defined in environment variables.');
+    process.exit(1);
+}
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET || 'my_super_secret_key_david',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 }));
@@ -96,6 +107,8 @@ app.post('/api/messages', (req, res) => {
 
     db.run('INSERT INTO messages (sender_id, receiver_id, message) VALUES (?, ?, ?)', [sender_id, actual_receiver, message], function(err) {
         if (err) return res.status(500).json({ error: err.message });
+
+        io.emit('newMessage');
         res.json({ message: 'Message sent' });
     });
 });
@@ -146,6 +159,13 @@ app.get('/api/users', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+io.on('connection', (socket) => {
+    console.log('A user connected via WebSocket');
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+});
+
+server.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
