@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre Mim - David Pereira</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+</head>
+<body>
+<div class="loading-screen" id="loading">
+    <div class="loader">
+        <div class="spinner"></div>
+        <h2>David Pereira</h2>
+    </div>
+</div>
+
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="logo">
+            <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link">Início</a></li>
+            <li><a href="about.html" class="nav-link active">Sobre</a></li>
+            <li><a href="skills.html" class="nav-link">Habilidades</a></li>
+            <li><a href="projects.html" class="nav-link">Projetos</a></li>
+            <li><a href="contact.html" class="nav-link">Contacto</a></li>
+            <li>
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </li>
+        </ul>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="index.html" class="mobile-nav-link">Início</a></li>
+        <li><a href="about.html" class="mobile-nav-link active">Sobre</a></li>
+        <li><a href="skills.html" class="mobile-nav-link">Habilidades</a></li>
+        <li><a href="projects.html" class="mobile-nav-link">Projetos</a></li>
+        <li><a href="contact.html" class="mobile-nav-link">Contacto</a></li>
+    </ul>
+</div>
+
+<section id="about" class="about">
+    <div class="container">
+        <div class="section-header">
+            <h2>Sobre <span class="highlight">Mim</span></h2>
+            <p class="section-subtitle">Conheça a minha jornada e paixão pela tecnologia</p>
+        </div>
+        <div class="about-content">
+            <div class="about-text">
+                <h3>David Assunção Pereira</h3>
+                <p>
+                    Sou um aspirante e apaixonado por tecnologia, design e inovação.
+                    Comecei recentemente na programação no secundário ao tirar um curso de programação de 3 anos.
+                </p>
+                <p>
+                    Ao longo da minha carreira escolar, tive a oportunidade de trabalhar em diversos
+                    projetos, desde pequenas landing pages até aplicações web complexas.
+                    Cada projeto é uma nova oportunidade de aprender, crescer e superar desafios.
+                </p>
+                <p>
+                    Acredito que a tecnologia deve ser acessível, intuitiva e eficiente.
+                    Meu objetivo é criar soluções que não apenas funcionem perfeitamente,
+                    mas que também proporcionem uma experiência memorável aos utilizadores.
+                </p>
+                <div class="personal-info">
+                    <div class="info-item">
+                        <strong><i class="fas fa-user"></i> Nome:</strong>
+                        <span>David Assunção Pereira</span>
+                    </div>
+                    <div class="info-item">
+                        <strong><i class="fas fa-envelope"></i> Email:</strong>
+                        <span>3hs.david.pereira@gmail.com</span>
+                    </div>
+                    <div class="info-item">
+                        <strong><i class="fas fa-map-marker-alt"></i> Localização:</strong>
+                        <span>Portugal</span>
+                    </div>
+                    <div class="info-item">
+                        <strong><i class="fas fa-briefcase"></i> Disponibilidade:</strong>
+                        <span class="available">Disponível para novos projetos</span>
+                    </div>
+                </div>
+                <a href="contact.html" class="btn btn-primary">
+                    <i class="fas fa-paper-plane"></i> Vamos Conversar
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </div>
+            <p class="footer-text">Sempre a aprender!</p>
+            <div class="footer-links">
+                <a href="index.html">Início</a>
+                <a href="about.html">Sobre</a>
+                <a href="skills.html">Habilidades</a>
+                <a href="projects.html">Projetos</a>
+                <a href="contact.html">Contacto</a>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> David Assunção Pereira.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+    <i class="fas fa-chevron-up"></i>
+</button>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

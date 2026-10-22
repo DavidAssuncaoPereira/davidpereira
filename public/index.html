@@ -4,26 +4,149 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>David Pereira</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="assets/icons/favicon.ico" type="image/x-icon">
+
+    <meta name="description" content="David Pereira - Estudante de Informática e Desenvolvedor Web.">
+    <meta name="keywords" content="David Pereira, programador, desenvolvedor web, frontend, backend, Portugal">
+    <meta name="author" content="David Assunção Pereira">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://davidassuncaopereira.github.io">
+
+    <meta property="og:title" content="David Pereira">
+    <meta property="og:description" content="Pretendo aprender a melhorar os meus conceitos">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://davidassuncaopereira.github.io/assets/images/profile.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:url" content="https://davidassuncaopereira.github.io">
+    <meta property="og:locale" content="pt_PT">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="David Pereira">
+    <meta name="twitter:description" content="Pretendo aprender a melhorar os meus conceitos">
+    <meta name="twitter:image" content="https://davidassuncaopereira.github.io/assets/images/profile.png">
 </head>
 <body>
-    <nav class="navbar">
-        <div class="logo">David Pereira</div>
-        <div class="auth-buttons" id="authButtons">
-            <!-- Inject via JS -->
-        </div>
-    </nav>
+<nav class="navbar">
+    <div class="container">
+        <a href="#" class="logo">
+            <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+        </a>
 
-    <header class="hero">
-        <img src="assets/images/profile.png" alt="David Pereira" class="profile-img">
-        <h1>Olá, eu sou o David Pereira</h1>
-        <p>Bem-vindo ao meu espaço pessoal. Para entrar em contacto comigo, por favor crie uma conta ou faça login.</p>
-        <div class="cta-buttons">
-            <a href="login.html" class="btn">Login</a>
-            <a href="register.html" class="btn btn-outline">Registar</a>
-        </div>
-    </header>
+        <ul class="nav-links">
+            <li><a href="index.html" class="nav-link active">Início</a></li>
+            <li><a href="about.html" class="nav-link">Sobre</a></li>
+            <li><a href="skills.html" class="nav-link">Habilidades</a></li>
+            <li><a href="projects.html" class="nav-link">Projetos</a></li>
+            <li><a href="contact.html" class="nav-link">Contacto</a></li>
+            <li>
+                <button class="theme-toggle" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </li>
+        </ul>
 
-    <script src="app.js"></script>
+        <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="index.html" class="mobile-nav-link active">Início</a></li>
+        <li><a href="about.html" class="mobile-nav-link">Sobre</a></li>
+        <li><a href="skills.html" class="mobile-nav-link">Habilidades</a></li>
+        <li><a href="projects.html" class="mobile-nav-link">Projetos</a></li>
+        <li><a href="contact.html" class="mobile-nav-link">Contacto</a></li>
+    </ul>
+</div>
+
+<section id="home" class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="greeting">👋 Boas,</span>
+                <h1 class="hero-title">
+                    <span class="highlight">David</span> Pereira
+                </h1>
+                <h2 class="hero-subtitle">
+                    <span class="typed-text" id="typed"></span>
+                    <span class="cursor">|</span>
+                </h2>
+                <p class="hero-description">
+                    Sou um aluno quase formado no ensino secundário com uma grande vontade de aprender
+                </p>
+
+                <div class="hero-buttons">
+                    <a href="contact.html" class="btn btn-secondary">
+                        <i class="fas fa-envelope"></i> Contacto
+                    </a>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number" data-count="1">0</span>
+                        <span class="stat-label">Anos Exp.</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number" data-count="100">0</span>
+                        <span class="stat-label">Satisfação</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <div class="image-container">
+                    <img src="assets/images/profile.png"
+                         alt="David Pereira"
+                         class="profile-img">
+                    <div class="image-decoration"></div>
+                </div>
+            </div>
+        </div>
+
+        <a href="about.html" class="scroll-down" aria-label="Descer para a seção sobre mim">
+            <i class="fas fa-chevron-down"></i>
+        </a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <span class="logo-text">David</span><span class="logo-highlight">Pereira</span>
+            </div>
+
+            <p class="footer-text">
+                Sempre a aprender!
+            </p>
+
+            <div class="footer-links">
+                <a href="index.html">Início</a>
+                <a href="about.html">Sobre</a>
+                <a href="skills.html">Habilidades</a>
+                <a href="projects.html">Projetos</a>
+                <a href="contact.html">Contacto</a>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year"></span> David Assunção Pereira.</p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+    <i class="fas fa-chevron-up"></i>
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
