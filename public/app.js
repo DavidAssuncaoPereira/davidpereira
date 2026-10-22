@@ -187,14 +187,17 @@ async function loadMessages() {
 
             div.appendChild(small);
             div.appendChild(document.createElement('br'));
-            div.appendChild(document.createTextNode(m.message)); // Safe text injection
+
+            const msgSpan = document.createElement('span');
+            msgSpan.textContent = m.message;
+            div.appendChild(msgSpan);
 
             fragment.appendChild(div);
         });
 
         // Clear and append only if we have changes (very simple check for now, can improve later)
         // Here we just re-render everything to be safe since we removed raw html length check
-        chatBox.innerHTML = '';
+        chatBox.textContent = '';
         chatBox.appendChild(fragment);
         chatBox.scrollTop = chatBox.scrollHeight;
     } catch (err) {
