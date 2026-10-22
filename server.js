@@ -13,6 +13,10 @@ const server = http.createServer(app);
 const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 
+server.listen(PORT, '0.0.0.0', () => {
+  console.log(`Servidor ativo na porta ${PORT}`);
+});
+
 if (!process.env.SESSION_SECRET) {
     console.error('FATAL ERROR: SESSION_SECRET is not defined in environment variables.');
     process.exit(1);
