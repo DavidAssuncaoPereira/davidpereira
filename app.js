@@ -1,8 +1,16 @@
+// Initialize mock admin and messages if not exists
+if (!localStorage.getItem('users')) {
+    localStorage.setItem('users', JSON.stringify([{ id: '1', username: 'admin', password: 'password', role: 'admin' }]));
+}
+if (!localStorage.getItem('messages')) {
+    localStorage.setItem('messages', JSON.stringify([]));
+}
+
 // Check authentication status globally
 async function checkAuth() {
     try {
-        const res = await fetch('/api/auth');
-        const data = await res.json();
+        const activeUser = JSON.parse(sessionStorage.getItem('activeUser'));
+        const data = activeUser ? { loggedIn: true, ...activeUser } : { loggedIn: false };
 
         const authButtons = document.getElementById('authButtons');
         if (authButtons) {
@@ -26,7 +34,7 @@ async function checkAuth() {
 }
 
 async function logout() {
-    await fetch('/api/logout', { method: 'POST' });
+    sessionStorage.removeItem('activeUser');
     window.location.href = 'index.html';
 }
 
@@ -40,20 +48,17 @@ if (loginForm) {
         const errorMsg = document.getElementById('errorMsg');
 
         try {
-            const res = await fetch('/api/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await res.json();
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.username === username && u.password === password);
 
-            if (res.ok) {
+            if (user) {
+                sessionStorage.setItem('activeUser', JSON.stringify(user));
                 window.location.href = 'chat.html';
             } else {
-                errorMsg.innerText = data.error || 'Erro ao fazer login';
+                errorMsg.innerText = 'Credenciais inválidas';
             }
         } catch (err) {
-            errorMsg.innerText = 'Erro de ligação.';
+            errorMsg.innerText = 'Erro ao fazer login.';
         }
     });
 }
@@ -68,21 +73,25 @@ if (registerForm) {
         const errorMsg = document.getElementById('reg-errorMsg');
 
         try {
-            const res = await fetch('/api/register', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
-            });
-            const data = await res.json();
-
-            if (res.ok) {
-                alert('Conta criada com sucesso! Faça login.');
-                window.location.href = 'login.html';
-            } else {
-                errorMsg.innerText = data.error || 'Erro ao registar';
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            if (users.some(u => u.username === username)) {
+                errorMsg.innerText = 'Nome de utilizador já existe';
+                return;
             }
+
+            const newUser = {
+                id: Date.now().toString(), // simple unique id
+                username,
+                password,
+                role: 'user'
+            };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+
+            alert('Conta criada com sucesso! Faça login.');
+            window.location.href = 'login.html';
         } catch (err) {
-            errorMsg.innerText = 'Erro de ligação.';
+            errorMsg.innerText = 'Erro ao registar.';
         }
     });
 }
@@ -108,11 +117,10 @@ async function initChat() {
 
     loadMessages();
 
-    // Connect to WebSocket and listen for new messages
-    const socket = io();
-    socket.on('newMessage', () => {
+    // Poll for new messages every 3 seconds
+    setInterval(() => {
         loadMessages();
-    });
+    }, 3000);
 
     const chatForm = document.getElementById('chatForm');
     chatForm.addEventListener('submit', async (e) => {
@@ -132,11 +140,17 @@ async function initChat() {
         }
 
         try {
-            await fetch('/api/messages', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ receiver_id, message })
+            const messages = JSON.parse(localStorage.getItem('messages')) || [];
+            messages.push({
+                id: Date.now().toString(),
+                sender_id: currentUser.id,
+                sender_name: currentUser.username,
+                receiver_id: receiver_id,
+                message: message,
+                timestamp: new Date().toISOString()
             });
+            localStorage.setItem('messages', JSON.stringify(messages));
+
             messageInput.value = '';
             loadMessages();
         } catch (err) {
@@ -147,14 +161,19 @@ async function initChat() {
 
 async function loadUsers() {
     try {
-        const res = await fetch('/api/users');
-        const users = await res.json();
+        const users = JSON.parse(localStorage.getItem('users')) || [];
         const select = document.getElementById('userSelect');
+        // Clear options except first
+        while (select.options.length > 1) {
+            select.remove(1);
+        }
         users.forEach(u => {
-            const option = document.createElement('option');
-            option.value = u.id;
-            option.textContent = u.username;
-            select.appendChild(option);
+            if (u.role !== 'admin') {
+                const option = document.createElement('option');
+                option.value = u.id;
+                option.textContent = u.username;
+                select.appendChild(option);
+            }
         });
     } catch (err) {
         console.error('Error loading users', err);
@@ -163,8 +182,17 @@ async function loadUsers() {
 
 async function loadMessages() {
     try {
-        const res = await fetch('/api/messages');
-        const messages = await res.json();
+        let allMessages = JSON.parse(localStorage.getItem('messages')) || [];
+        let messages = [];
+
+        if (currentUser.role === 'admin') {
+            // Admin sees all messages
+            messages = allMessages;
+        } else {
+            // Normal user sees messages sent to or by them
+            messages = allMessages.filter(m => m.sender_id === currentUser.id || m.receiver_id === currentUser.id || m.receiver_id === null || m.receiver_id === '');
+        }
+
         const chatBox = document.getElementById('chatBox');
 
         // Prevent XSS by constructing DOM nodes
