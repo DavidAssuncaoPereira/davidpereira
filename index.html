@@ -9,6 +9,12 @@
 <body>
     <nav class="navbar">
         <div class="logo">David Pereira</div>
+        <div class="nav-links">
+            <a href="#sobre-mim">Sobre Mim</a>
+            <a href="#competencias">Competências</a>
+            <a href="#projetos">Projetos</a>
+            <a href="#experiencia">Experiência</a>
+        </div>
         <div class="auth-buttons" id="authButtons">
             <!-- Inject via JS -->
         </div>
@@ -24,11 +30,79 @@
         </div>
     </header>
 
-    <section id="sobre-mim" class="about-section">
+    <section id="sobre-mim" class="about-section section">
         <h2>Sobre Mim</h2>
         <p>Bem-vindo ao meu espaço pessoal. Este site foi criado para partilhar um pouco sobre o meu trabalho e para facilitar o contacto direto comigo. Sou um profissional dedicado, sempre à procura de novos desafios e oportunidades para aprender. Para entrar em contacto ou deixar uma mensagem, por favor crie uma conta ou faça login.</p>
     </section>
 
+    <section id="competencias" class="section">
+        <h2>Competências</h2>
+        <div class="skills-grid">
+            <div class="skill-card">HTML5</div>
+            <div class="skill-card">CSS3 / Tailwind</div>
+            <div class="skill-card">JavaScript (ES6+)</div>
+            <div class="skill-card">React.js</div>
+            <div class="skill-card">Node.js / Express</div>
+            <div class="skill-card">Python</div>
+            <div class="skill-card">Git / GitHub</div>
+            <div class="skill-card">Bases de Dados (SQL/NoSQL)</div>
+        </div>
+    </section>
+
+    <section id="projetos" class="section">
+        <h2>Projetos</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <h3>E-commerce Moderno</h3>
+                <p>Plataforma completa de comércio eletrónico com carrinho de compras, integração de pagamentos e painel de administração.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver Projeto</a>
+            </div>
+            <div class="project-card">
+                <h3>App de Gestão de Tarefas</h3>
+                <p>Aplicação web para organização pessoal com funcionalidades de arrastar e soltar (drag & drop) e sincronização em tempo real.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver Projeto</a>
+            </div>
+            <div class="project-card">
+                <h3>Blog Pessoal Estático</h3>
+                <p>Blog de alta performance gerado estaticamente com Markdown, focado em SEO e velocidade de carregamento.</p>
+                <a href="#" class="btn btn-outline" style="margin-top: 1rem;">Ver Projeto</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiencia" class="section">
+        <h2>Experiência</h2>
+        <div class="experience-list">
+            <div class="experience-item">
+                <h3>Desenvolvedor Web Sénior</h3>
+                <p class="company">Tech Solutions Inc. | 2021 - Presente</p>
+                <p>Liderança técnica da equipa de frontend, implementação de arquiteturas escaláveis em React e melhoria de performance de aplicações core.</p>
+            </div>
+            <div class="experience-item">
+                <h3>Desenvolvedor Full Stack</h3>
+                <p class="company">WebAgency PT | 2018 - 2021</p>
+                <p>Desenvolvimento de soluções web end-to-end para clientes corporativos usando Node.js, Express e várias tecnologias frontend.</p>
+            </div>
+            <div class="experience-item">
+                <h3>Estagiário de Desenvolvimento Web</h3>
+                <p class="company">Startup Inovadora | 2017 - 2018</p>
+                <p>Apoio na criação de landing pages, manutenção de bases de dados e resolução de bugs em aplicações legadas.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; <span id="year"></span> David Pereira. Todos os direitos reservados.</p>
+            <div class="social-links">
+                <a href="#">LinkedIn</a>
+                <a href="#">GitHub</a>
+                <a href="#">Twitter</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
     <script type="module" src="js/main.js"></script>
 </body>
 </html>
