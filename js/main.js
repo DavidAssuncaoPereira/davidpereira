@@ -10,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.1
     });
 
-    document.querySelectorAll('.fade-in').forEach(element => {
+    const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-up');
+    animatedElements.forEach(element => {
         observer.observe(element);
     });
 });
