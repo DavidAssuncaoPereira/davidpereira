@@ -16,6 +16,7 @@
     <div class="chat-container">
         <h2>As Minhas Mensagens</h2>
         <div id="adminControls" style="display:none; margin-bottom: 20px;">
+            <label for="userSelect" style="display: block; margin-bottom: 5px;">Selecione um utilizador:</label>
             <select id="userSelect" class="form-group">
                 <option value="">Selecione um utilizador para responder...</option>
             </select>
@@ -24,6 +25,7 @@
             <!-- Messages load here -->
         </div>
         <form id="chatForm" class="chat-input">
+            <label for="messageInput" style="display: none;">Mensagem</label>
             <input type="text" id="messageInput" placeholder="Escreva a sua mensagem..." required>
             <button type="submit" class="btn">Enviar</button>
         </form>
