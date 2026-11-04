@@ -1,30 +1,4 @@
-import { checkAuth, setupAuthForms } from './auth.js';
-import { initChat } from './chat.js';
-
-// Initialize mock admin and messages if not exists
-if (!localStorage.getItem('users')) {
-    localStorage.setItem('users', JSON.stringify([{ id: '1', username: 'admin', password: 'password', role: 'admin' }]));
-}
-if (!localStorage.getItem('messages')) {
-    localStorage.setItem('messages', JSON.stringify([]));
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-    // Run auth check on normal pages that have an authButtons container
-    if (document.getElementById('authButtons')) {
-        checkAuth();
-    }
-
-    // Initialize auth forms if they are present on the page
-    if (document.getElementById('loginForm') || document.getElementById('registerForm')) {
-        setupAuthForms();
-    }
-
-    // Initialize chat if the chatBox container is present on the page
-    if (document.getElementById('chatBox')) {
-        initChat();
-    }
-
     // Scroll animations using IntersectionObserver
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -36,7 +10,8 @@ document.addEventListener('DOMContentLoaded', () => {
         threshold: 0.1
     });
 
-    document.querySelectorAll('.fade-in').forEach(element => {
+    const animatedElements = document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .scale-up');
+    animatedElements.forEach(element => {
         observer.observe(element);
     });
 });
