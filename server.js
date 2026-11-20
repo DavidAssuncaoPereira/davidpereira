@@ -10,166 +10,245 @@ const db = require('./db');
 
 const app = express();
 const server = http.createServer(app);
-const io = new Server(server);
-const PORT = process.env.PORT || 3000;
-
-server.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor ativo na porta ${PORT}`);
+const io = new Server(server, {
+    cors: { origin: '*' }
 });
 
-if (!process.env.SESSION_SECRET) {
-    console.error('FATAL ERROR: SESSION_SECRET is not defined in environment variables.');
-    process.exit(1);
-}
+const PORT = process.env.PORT || 3000;
+const SESSION_SECRET = process.env.SESSION_SECRET || 'davidpereira_secret_key_session_2026';
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 * 7 // 7 dias
+    }
 }));
 
-// API: Setup Admin (Run once or manually)
-app.get('/api/setup', async (req, res) => {
-    const hashedPassword = await bcrypt.hash('admin123', 10);
-    db.run('INSERT OR IGNORE INTO users (username, password, role) VALUES (?, ?, ?)', ['admin', hashedPassword, 'admin'], function(err) {
-        if (err) return res.status(500).json({error: err.message});
-        res.json({ message: 'Admin user created (if not exists)' });
+// Garante utilizador Admin padrão (admin / admin123)
+async function initAdmin() {
+    try {
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        db.run(
+            `INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, 'admin', ?, 'admin')`,
+            [hashedPassword],
+            (err) => {
+                if (!err) {
+                    console.log('Utilizador administrador verificado com sucesso.');
+                }
+            }
+        );
+    } catch (e) {
+        console.error('Erro ao inicializar admin:', e);
+    }
+}
+initAdmin();
+
+// API: Health / Status
+app.get('/api/status', (req, res) => {
+    res.json({
+        status: 'online',
+        uptime: process.uptime(),
+        appName: 'David Pereira Portfolio & Live Chat',
+        timestamp: new Date().toISOString()
     });
+});
+
+// API: Setup Admin manual (se necessário)
+app.get('/api/setup', async (req, res) => {
+    try {
+        const hashedPassword = await bcrypt.hash('admin123', 10);
+        db.run('INSERT OR IGNORE INTO users (id, username, password, role) VALUES (1, ?, ?, ?)', ['admin', hashedPassword, 'admin'], function(err) {
+            if (err) return res.status(500).json({ error: err.message });
+            res.json({ message: 'Conta de Administrador pronta (user: admin / pass: admin123)' });
+        });
+    } catch (err) {
+        res.status(500).json({ error: 'Erro ao configurar admin' });
+    }
 });
 
 // API: Register
 app.post('/api/register', async (req, res) => {
     const { username, password } = req.body;
-    if (!username || !password) return res.status(400).json({ error: 'Username and password required' });
+    if (!username || !password) {
+        return res.status(400).json({ error: 'Nome de utilizador e palavra-passe são obrigatórios.' });
+    }
+
+    if (username.trim().length < 3) {
+        return res.status(400).json({ error: 'O nome de utilizador deve ter pelo menos 3 caracteres.' });
+    }
+
+    if (password.length < 6) {
+        return res.status(400).json({ error: 'A palavra-passe deve ter pelo menos 6 caracteres.' });
+    }
 
     try {
         const hashedPassword = await bcrypt.hash(password, 10);
-        db.run('INSERT INTO users (username, password) VALUES (?, ?)', [username, hashedPassword], function(err) {
+        db.run('INSERT INTO users (username, password, role) VALUES (?, ?, "user")', [username.trim(), hashedPassword], function(err) {
             if (err) {
                 if (err.message.includes('UNIQUE')) {
-                    return res.status(400).json({ error: 'Username already exists' });
+                    return res.status(400).json({ error: 'Este nome de utilizador já está em uso.' });
                 }
                 return res.status(500).json({ error: err.message });
             }
-            res.json({ message: 'Registered successfully' });
+            res.json({ message: 'Conta criada com sucesso!' });
         });
     } catch (err) {
-        res.status(500).json({ error: 'Server error' });
+        res.status(500).json({ error: 'Erro no servidor ao registar utilizador.' });
     }
 });
 
 // API: Login
 app.post('/api/login', (req, res) => {
     const { username, password } = req.body;
-    db.get('SELECT * FROM users WHERE username = ?', [username], async (err, user) => {
+    if (!username || !password) {
+        return res.status(400).json({ error: 'Preencha o utilizador e a palavra-passe.' });
+    }
+
+    db.get('SELECT * FROM users WHERE username = ?', [username.trim()], async (err, user) => {
         if (err) return res.status(500).json({ error: err.message });
-        if (!user) return res.status(400).json({ error: 'Invalid username or password' });
+        if (!user) return res.status(400).json({ error: 'Nome de utilizador ou palavra-passe inválidos.' });
 
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(400).json({ error: 'Invalid username or password' });
+        if (!isMatch) return res.status(400).json({ error: 'Nome de utilizador ou palavra-passe inválidos.' });
 
         req.session.userId = user.id;
         req.session.username = user.username;
-        req.session.role = user.role;
-        res.json({ message: 'Logged in successfully', role: user.role });
+        req.session.role = user.role || 'user';
+        res.json({ message: 'Sessão iniciada com sucesso!', username: user.username, role: user.role });
     });
 });
 
 // API: Logout
 app.post('/api/logout', (req, res) => {
     req.session.destroy();
-    res.json({ message: 'Logged out' });
+    res.json({ message: 'Sessão terminada.' });
 });
 
 // API: Check Auth
 app.get('/api/auth', (req, res) => {
     if (req.session.userId) {
-        res.json({ loggedIn: true, username: req.session.username, role: req.session.role });
+        res.json({ loggedIn: true, userId: req.session.userId, username: req.session.username, role: req.session.role });
     } else {
         res.json({ loggedIn: false });
     }
 });
 
-// API: Send Message (User to Admin, Admin to User)
+// API: Send Message
 app.post('/api/messages', (req, res) => {
-    if (!req.session.userId) return res.status(401).json({ error: 'Unauthorized' });
+    if (!req.session.userId) return res.status(401).json({ error: 'Não autorizado. Inicie sessão para enviar mensagens.' });
 
     const { receiver_id, message } = req.body;
     const sender_id = req.session.userId;
 
-    // If user is sending, receiver should be admin (let's assume admin has id 1)
-    let actual_receiver = receiver_id;
-    if (req.session.role !== 'admin') {
-         actual_receiver = 1; // Send to admin
-    } else if (!actual_receiver) {
-         return res.status(400).json({ error: 'Admin must specify receiver_id' });
+    if (!message || !message.trim()) {
+        return res.status(400).json({ error: 'A mensagem não pode estar vazia.' });
     }
 
-    db.run('INSERT INTO messages (sender_id, receiver_id, message) VALUES (?, ?, ?)', [sender_id, actual_receiver, message], function(err) {
-        if (err) return res.status(500).json({ error: err.message });
+    // Se o remetente for utilizador normal, envia para o admin (ID 1)
+    let actual_receiver = receiver_id;
+    if (req.session.role !== 'admin') {
+        actual_receiver = 1;
+    } else if (!actual_receiver) {
+        return res.status(400).json({ error: 'Como administrador, selecione o destinatário.' });
+    }
 
-        io.emit('newMessage');
-        res.json({ message: 'Message sent' });
-    });
+    db.run(
+        'INSERT INTO messages (sender_id, receiver_id, message) VALUES (?, ?, ?)',
+        [sender_id, actual_receiver, message.trim()],
+        function(err) {
+            if (err) return res.status(500).json({ error: err.message });
+
+            io.emit('newMessage', {
+                sender_id,
+                receiver_id: actual_receiver,
+                message: message.trim()
+            });
+            res.json({ message: 'Mensagem enviada com sucesso!' });
+        }
+    );
 });
 
 // API: Get Messages
 app.get('/api/messages', (req, res) => {
-    if (!req.session.userId) return res.status(401).json({ error: 'Unauthorized' });
+    if (!req.session.userId) return res.status(401).json({ error: 'Não autorizado.' });
 
     const userId = req.session.userId;
+    const targetUserId = req.query.user_id ? parseInt(req.query.user_id, 10) : null;
 
     if (req.session.role === 'admin') {
-        // Admin sees all distinct conversations. For simplicity, just get all messages with usernames
-        db.all(`
-            SELECT m.id, m.message, m.timestamp, m.sender_id, m.receiver_id,
-                   s.username as sender_name, r.username as receiver_name
-            FROM messages m
-            JOIN users s ON m.sender_id = s.id
-            JOIN users r ON m.receiver_id = r.id
-            ORDER BY m.timestamp ASC
-        `, [], (err, rows) => {
-            if (err) return res.status(500).json({ error: err.message });
-            res.json(rows);
-        });
+        // Se targetUserId for passado, filtra apenas por esse utilizador
+        if (targetUserId) {
+            db.all(`
+                SELECT m.id, m.message, m.timestamp, m.sender_id, m.receiver_id,
+                       s.username as sender_name, r.username as receiver_name
+                FROM messages m
+                LEFT JOIN users s ON m.sender_id = s.id
+                LEFT JOIN users r ON m.receiver_id = r.id
+                WHERE (m.sender_id = ? AND m.receiver_id = 1) OR (m.sender_id = 1 AND m.receiver_id = ?)
+                ORDER BY m.timestamp ASC
+            `, [targetUserId, targetUserId], (err, rows) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json(rows || []);
+            });
+        } else {
+            // Retorna todas as conversas do admin
+            db.all(`
+                SELECT m.id, m.message, m.timestamp, m.sender_id, m.receiver_id,
+                       s.username as sender_name, r.username as receiver_name
+                FROM messages m
+                LEFT JOIN users s ON m.sender_id = s.id
+                LEFT JOIN users r ON m.receiver_id = r.id
+                ORDER BY m.timestamp ASC
+            `, [], (err, rows) => {
+                if (err) return res.status(500).json({ error: err.message });
+                res.json(rows || []);
+            });
+        }
     } else {
-        // Normal user sees messages between themselves and admin (id 1)
+        // Utilizador comum só vê as mensagens entre si e o admin (ID 1)
         db.all(`
             SELECT m.id, m.message, m.timestamp, m.sender_id, m.receiver_id,
                    s.username as sender_name, r.username as receiver_name
             FROM messages m
-            JOIN users s ON m.sender_id = s.id
-            JOIN users r ON m.receiver_id = r.id
+            LEFT JOIN users s ON m.sender_id = s.id
+            LEFT JOIN users r ON m.receiver_id = r.id
             WHERE (m.sender_id = ? AND m.receiver_id = 1) OR (m.sender_id = 1 AND m.receiver_id = ?)
             ORDER BY m.timestamp ASC
         `, [userId, userId], (err, rows) => {
             if (err) return res.status(500).json({ error: err.message });
-            res.json(rows);
+            res.json(rows || []);
         });
     }
 });
 
 // API: Get Users (Admin only)
 app.get('/api/users', (req, res) => {
-    if (req.session.role !== 'admin') return res.status(403).json({ error: 'Forbidden' });
+    if (req.session.role !== 'admin') return res.status(403).json({ error: 'Acesso reservado ao administrador.' });
 
-    db.all('SELECT id, username FROM users WHERE role != "admin"', [], (err, rows) => {
+    db.all(`
+        SELECT u.id, u.username, u.created_at,
+               (SELECT COUNT(*) FROM messages m WHERE m.sender_id = u.id AND m.receiver_id = 1) as message_count
+        FROM users u 
+        WHERE u.role != 'admin'
+        ORDER BY u.id DESC
+    `, [], (err, rows) => {
         if (err) return res.status(500).json({ error: err.message });
-        res.json(rows);
+        res.json(rows || []);
     });
 });
 
 io.on('connection', (socket) => {
-    console.log('A user connected via WebSocket');
     socket.on('disconnect', () => {
-        console.log('A user disconnected');
+        // user disconnected
     });
 });
 
 server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on port ${PORT} at 0.0.0.0`);
+    console.log(`Servidor ativo na porta ${PORT} em http://localhost:${PORT}`);
 });

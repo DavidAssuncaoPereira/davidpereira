@@ -1,29 +1,69 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - David Pereira</title>
+    <title>Iniciar Sessão | David Pereira</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <nav class="navbar">
-        <a href="index.html" class="logo">David Pereira</a>
-    </nav>
-    <div class="auth-container">
-        <h2>Login</h2>
-        <form id="loginForm">
-            <div class="form-group">
-                <input type="text" id="username" placeholder="Nome de Utilizador" required>
+<body class="auth-page">
+
+    <!-- Ambient Visual Effects -->
+    <div class="bg-grid-overlay"></div>
+    <div class="aurora-orb aurora-1"></div>
+    <div class="aurora-orb aurora-2"></div>
+
+    <div class="auth-wrapper">
+        <a href="index.html" class="auth-back-btn">
+            <i class="fas fa-arrow-left"></i> Voltar à Página Inicial
+        </a>
+
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo-badge">
+                    <i class="fas fa-user-lock"></i>
+                </div>
+                <h2>Bem-vindo de volta</h2>
+                <p>Inicie sessão para aceder ao sistema de mensagens em tempo real</p>
             </div>
-            <div class="form-group">
-                <input type="password" id="password" placeholder="Palavra-passe" required>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label" for="username">Nome de Utilizador</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" id="username" placeholder="Insira o seu utilizador" required autocomplete="username">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label" for="password">Palavra-passe</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" id="password" placeholder="Insira a sua palavra-passe" required autocomplete="current-password">
+                        <button type="button" id="togglePassword" class="password-toggle-btn" aria-label="Mostrar ou ocultar palavra-passe">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <p id="errorMsg" style="color:#ef4444; font-size:0.88rem; margin-bottom:1rem; font-weight:600; min-height:1.2rem;"></p>
+
+                <button type="submit" class="btn btn-primary btn-glow">
+                    <i class="fas fa-sign-in-alt"></i> Entrar
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Não tem uma conta criada? <a href="register.html">Registar nova conta</a></p>
             </div>
-            <button type="submit" class="btn">Entrar</button>
-            <p class="error-msg" id="errorMsg"></p>
-        </form>
-        <p>Não tem conta? <a href="register.html">Registe-se aqui</a></p>
+        </div>
     </div>
+
     <script src="app.js"></script>
 </body>
 </html>

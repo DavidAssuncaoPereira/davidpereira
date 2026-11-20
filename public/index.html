@@ -1,29 +1,755 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="pt" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>David Pereira</title>
+    <title>David Pereira | Desenvolvedor Web & Estudante de Informática</title>
+    
+    <!-- Meta SEO & Social -->
+    <meta name="description" content="Portfolio de David Pereira - Desenvolvedor Web e Estudante de Informática. Projetos, habilidades em Frontend, Backend e sistema de chat em tempo real.">
+    <meta name="author" content="David Assunção Pereira">
+    <meta name="keywords" content="David Pereira, portfolio, desenvolvedor web, frontend, backend, Portugal, javascript, nodejs, typescript">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
+    <!-- Ambient Visual Effects -->
+    <div class="bg-grid-overlay"></div>
+    <div class="aurora-orb aurora-1"></div>
+    <div class="aurora-orb aurora-2"></div>
+
+    <!-- NAVBAR -->
     <nav class="navbar">
-        <div class="logo">David Pereira</div>
-        <div class="auth-buttons" id="authButtons">
-            <!-- Inject via JS -->
+        <div class="container nav-container">
+            <a href="#home" class="logo">
+                <div class="logo-icon-box">DP</div>
+                <div>
+                    <span class="gradient-text">David</span> Pereira
+                </div>
+                <span class="logo-dot" title="Disponível"></span>
+            </a>
+
+            <ul class="nav-links" id="navLinks">
+                <li><a href="#home" class="nav-link active">Início</a></li>
+                <li><a href="#services" class="nav-link">O Que Faço</a></li>
+                <li><a href="#about" class="nav-link">Sobre Mim</a></li>
+                <li><a href="#skills" class="nav-link">Habilidades</a></li>
+                <li><a href="#projects" class="nav-link">Projetos</a></li>
+                <li><a href="#contact" class="nav-link">Contacto</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle-btn" id="themeToggle" aria-label="Alternar tema claro/escuro" title="Alternar tema">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <div id="authButtons">
+                    <!-- Populated dynamically via app.js -->
+                </div>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
         </div>
     </nav>
 
-    <header class="hero">
-        <img src="assets/images/profile.png" alt="David Pereira" class="profile-img">
-        <h1>Olá, eu sou o David Pereira</h1>
-        <p>Bem-vindo ao meu espaço pessoal. Para entrar em contacto comigo, por favor crie uma conta ou faça login.</p>
-        <div class="cta-buttons">
-            <a href="login.html" class="btn">Login</a>
-            <a href="register.html" class="btn btn-outline">Registar</a>
+    <!-- HERO SECTION -->
+    <header id="home" class="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <div class="status-pill">
+                        <span class="status-dot"></span>
+                        Disponível para novos projetos & oportunidades
+                    </div>
+                    <h1>
+                        Construindo o futuro com <br>
+                        <span class="gradient-text">Código & Criatividade</span>
+                    </h1>
+                    <div class="hero-role-wrapper">
+                        <span>Sou o David Pereira e crio</span>
+                        <span id="typedTarget" class="gradient-text-cyan"></span><span class="typing-cursor">|</span>
+                    </div>
+                    <p class="hero-description">
+                        Estudante de informática dedicado a transformar conceitos em plataformas web rápidas, acessíveis e visualmente memoráveis. Especialista em unir design elegante com arquiteturas backend sólidas.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="chat.html" class="btn btn-primary btn-glow">
+                            <i class="fas fa-paper-plane"></i> Iniciar Chat Direto
+                        </a>
+                        <a href="#projects" class="btn btn-secondary">
+                            <i class="fas fa-laptop-code"></i> Explorar Projetos
+                        </a>
+                        <a href="#about" class="btn btn-outline">
+                            <i class="fas fa-user-astronaut"></i> Conhecer Trajetória
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="3">3+</span>
+                            <span class="stat-label">Anos de Código</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="12">12+</span>
+                            <span class="stat-label">Tecnologias</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-count="100">100%</span>
+                            <span class="stat-label">Dedicação</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hero-visual-card">
+                    <div class="avatar-wrapper">
+                        <div class="avatar-outer-glow"></div>
+                        <div class="avatar-frame">
+                            <div class="avatar-img-box">
+                                <img src="assets/images/profile.png" alt="David Pereira" class="profile-img">
+                            </div>
+                        </div>
+                        <div class="floating-badge badge-top-left">
+                            <i class="fas fa-bolt" style="color:#f59e0b;"></i>
+                            <span>Clean Code & UI</span>
+                        </div>
+                        <div class="floating-badge badge-bottom-right">
+                            <i class="fas fa-map-marker-alt" style="color:var(--primary);"></i>
+                            <span>Portugal 🇵🇹</span>
+                        </div>
+                    </div>
+
+                    <!-- Mini macOS style Interactive Terminal -->
+                    <div class="hero-mini-terminal">
+                        <div class="terminal-header">
+                            <span class="dot-btn dot-red"></span>
+                            <span class="dot-btn dot-yellow"></span>
+                            <span class="dot-btn dot-green"></span>
+                            <span class="terminal-title">david.config.js</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div><span class="t-keyword">const</span> <span class="t-var">developer</span> = {</div>
+                            <div style="padding-left: 1.2rem;">name: <span class="t-str">'David Pereira'</span>,</div>
+                            <div style="padding-left: 1.2rem;">location: <span class="t-str">'Portugal'</span>,</div>
+                            <div style="padding-left: 1.2rem;">passions: [<span class="t-str">'Web'</span>, <span class="t-str">'Real-Time'</span>, <span class="t-str">'UI/UX'</span>],</div>
+                            <div style="padding-left: 1.2rem;">readyForWork: <span class="t-keyword">true</span></div>
+                            <div>};</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
+    <!-- TECH MARQUEE (Infinite Loop) -->
+    <section class="tech-marquee-section">
+        <div class="marquee-track">
+            <!-- Set 1 -->
+            <div class="marquee-item"><i class="fab fa-html5"></i> HTML5 Semântico</div>
+            <div class="marquee-item"><i class="fab fa-css3-alt"></i> CSS3 Moderno</div>
+            <div class="marquee-item"><i class="fab fa-js"></i> JavaScript ES6+</div>
+            <div class="marquee-item"><i class="fas fa-code"></i> TypeScript</div>
+            <div class="marquee-item"><i class="fab fa-node-js"></i> Node.js & Express</div>
+            <div class="marquee-item"><i class="fas fa-bolt"></i> Socket.IO Real-Time</div>
+            <div class="marquee-item"><i class="fas fa-database"></i> SQLite & MySQL</div>
+            <div class="marquee-item"><i class="fab fa-python"></i> Python</div>
+            <div class="marquee-item"><i class="fas fa-laptop-code"></i> C# / .NET</div>
+            <div class="marquee-item"><i class="fab fa-git-alt"></i> Git & GitHub</div>
+            <div class="marquee-item"><i class="fas fa-mobile-alt"></i> Design Responsivo</div>
+
+            <!-- Set 2 (for seamless loop) -->
+            <div class="marquee-item"><i class="fab fa-html5"></i> HTML5 Semântico</div>
+            <div class="marquee-item"><i class="fab fa-css3-alt"></i> CSS3 Moderno</div>
+            <div class="marquee-item"><i class="fab fa-js"></i> JavaScript ES6+</div>
+            <div class="marquee-item"><i class="fas fa-code"></i> TypeScript</div>
+            <div class="marquee-item"><i class="fab fa-node-js"></i> Node.js & Express</div>
+            <div class="marquee-item"><i class="fas fa-bolt"></i> Socket.IO Real-Time</div>
+            <div class="marquee-item"><i class="fas fa-database"></i> SQLite & MySQL</div>
+            <div class="marquee-item"><i class="fab fa-python"></i> Python</div>
+            <div class="marquee-item"><i class="fas fa-laptop-code"></i> C# / .NET</div>
+            <div class="marquee-item"><i class="fab fa-git-alt"></i> Git & GitHub</div>
+            <div class="marquee-item"><i class="fas fa-mobile-alt"></i> Design Responsivo</div>
+        </div>
+    </section>
+
+    <!-- O QUE FAÇO / SERVICES -->
+    <section id="services">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-cubes"></i> Especialidades</span>
+                <h2 class="section-title">O Que <span class="gradient-text">Faço</span></h2>
+                <p class="section-subtitle">Soluções digitais desenvolvidas com as melhores práticas de engenharia de software e foco na experiência de utilizador.</p>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card spotlight-card">
+                    <div class="service-icon-box">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h4>Frontend Moderno</h4>
+                    <p>Desenvolvimento de interfaces atrativas, responsivas e intuitivas com HTML5, CSS3, JavaScript e TypeScript, proporcionando navegação fluida em qualquer dispositivo.</p>
+                </div>
+
+                <div class="service-card spotlight-card">
+                    <div class="service-icon-box" style="background: linear-gradient(135deg, #06b6d4, #3b82f6);">
+                        <i class="fas fa-server"></i>
+                    </div>
+                    <h4>Backend & APIs</h4>
+                    <p>Construção de servidores robustos com Node.js e Express, rotas protegidas, autenticação com encriptação e integração com endpoints REST seguros.</p>
+                </div>
+
+                <div class="service-card spotlight-card">
+                    <div class="service-icon-box" style="background: linear-gradient(135deg, #a855f7, #ec4899);">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h4>Real-Time & WebSockets</h4>
+                    <p>Implementação de funcionalidades em tempo real, chats bidirecionais e notificações instantâneas utilizando a biblioteca Socket.IO sem necessidade de refresh.</p>
+                </div>
+
+                <div class="service-card spotlight-card">
+                    <div class="service-icon-box" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h4>Bases de Dados</h4>
+                    <p>Modelação e estruturação de bases de dados relacionais em SQLite e MySQL, garantindo integridade referencial, consultas otimizadas e segurança dos dados.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOBRE MIM & TIMELINE -->
+    <section id="about" style="background: rgba(15, 23, 42, 0.3);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-user-astronaut"></i> Perfil Pessoal</span>
+                <h2 class="section-title">Sobre <span class="gradient-text">Mim</span></h2>
+                <p class="section-subtitle">Conheça a minha história, formação académica e motivação diária para criar código de excelência.</p>
+            </div>
+
+            <div class="about-grid">
+                <!-- Informações e Narrativa -->
+                <div class="about-text spotlight-card">
+                    <h3 style="font-size: 1.6rem; margin-bottom: 1.2rem; font-weight: 800; color:var(--text-bright);">
+                        David Assunção Pereira
+                    </h3>
+                    <p>
+                        Sou um entusiasta de programação e inovação digital. O meu percurso teve início no ensino secundário através de um curso vocacional de programação de 3 anos em Portugal, onde desenvolvi uma base sólida em algoritmos, arquitetura de sistemas e metodologias ágeis.
+                    </p>
+                    <p>
+                        Acredito que um software excelente nasce do equilíbrio perfeito entre desempenho técnico no servidor e uma interface visual que encanta quem a utiliza. Estou constantemente a explorar novas ferramentas para elevar o padrão dos meus projetos.
+                    </p>
+
+                    <div class="personal-info-grid">
+                        <div class="info-chip">
+                            <i class="fas fa-user-check"></i>
+                            <div class="info-chip-content">
+                                <small>Nome</small>
+                                <span>David Assunção Pereira</span>
+                            </div>
+                        </div>
+                        <div class="info-chip" style="cursor:pointer;" onclick="copyEmail()" title="Clique para copiar">
+                            <i class="fas fa-envelope-open-text"></i>
+                            <div class="info-chip-content">
+                                <small>Email (Clique p/ copiar)</small>
+                                <span>3hs.david.pereira@gmail.com</span>
+                            </div>
+                        </div>
+                        <div class="info-chip">
+                            <i class="fas fa-map-pin"></i>
+                            <div class="info-chip-content">
+                                <small>Localização</small>
+                                <span>Portugal</span>
+                            </div>
+                        </div>
+                        <div class="info-chip">
+                            <i class="fas fa-briefcase"></i>
+                            <div class="info-chip-content">
+                                <small>Disponibilidade</small>
+                                <span style="color:var(--accent-emerald);">Projetos & Oportunidades</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
+                        <a href="#contact" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i> Entrar em Contacto
+                        </a>
+                        <a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">
+                            <i class="fab fa-github"></i> Explorar GitHub
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Trajetória / Timeline -->
+                <div class="timeline-card">
+                    <h4 class="timeline-title">
+                        <i class="fas fa-graduation-cap" style="color:var(--primary);"></i>
+                        Trajetória & Formação
+                    </h4>
+                    <div class="timeline-items">
+                        <div class="timeline-item">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-date">2023 - 2026</span>
+                            <h5>Curso Profissional de Programação</h5>
+                            <p>3 anos de formação intensiva em desenvolvimento de software no ensino secundário, explorando lógica algorítmica, programação orientada a objetos (C#, C/C++), bases de dados e tecnologias web.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-date">2024 - Presente</span>
+                            <h5>Especialização em Desenvolvimento Web Full-Stack</h5>
+                            <p>Criação de projetos independentes com Node.js, Express, WebSockets, TypeScript e arquitetura de interfaces interativas com dark mode dinâmico.</p>
+                        </div>
+                        <div class="timeline-item">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-date">Próximo Passo</span>
+                            <h5>Novos Desafios & Expansão de Competências</h5>
+                            <p>Pronto para integrar equipas de desenvolvimento e colaborar em projetos inovadores de escala real.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HABILIDADES TÉCNICAS -->
+    <section id="skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-code"></i> Competências Técnicas</span>
+                <h2 class="section-title">Minhas <span class="gradient-text">Habilidades</span></h2>
+                <p class="section-subtitle">O conjunto de linguagens, ferramentas e frameworks que domino para criar tecnologia eficiente.</p>
+            </div>
+
+            <div class="skills-grid">
+                <!-- Frontend -->
+                <div class="skill-category-card spotlight-card">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h3>Frontend</h3>
+                    </div>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>HTML5 / Acessibilidade Semântica</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>CSS3 / Flexbox, Grid & Animações</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>JavaScript Moderno (ES6+)</span>
+                                <span>88%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 88%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>TypeScript</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-pills">
+                        <span class="tech-tag"><i class="fab fa-html5"></i> HTML5</span>
+                        <span class="tech-tag"><i class="fab fa-css3-alt"></i> CSS3</span>
+                        <span class="tech-tag"><i class="fab fa-js"></i> JavaScript</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">UI/UX</span>
+                    </div>
+                </div>
+
+                <!-- Backend -->
+                <div class="skill-category-card spotlight-card">
+                    <div class="category-header">
+                        <div class="category-icon" style="background: rgba(6, 182, 212, 0.15); color: var(--accent-cyan);">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3>Backend & APIs</h3>
+                    </div>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>Node.js & Express</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>C# / .NET Core</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 80%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>Python & PHP</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 70%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>C / C++</span>
+                                <span>65%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 65%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-pills">
+                        <span class="tech-tag"><i class="fab fa-node-js"></i> Node.js</span>
+                        <span class="tech-tag">Express</span>
+                        <span class="tech-tag">C#</span>
+                        <span class="tech-tag"><i class="fab fa-python"></i> Python</span>
+                        <span class="tech-tag"><i class="fab fa-php"></i> PHP</span>
+                    </div>
+                </div>
+
+                <!-- Databases & Tools -->
+                <div class="skill-category-card spotlight-card">
+                    <div class="category-header">
+                        <div class="category-icon" style="background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald);">
+                            <i class="fas fa-database"></i>
+                        </div>
+                        <h3>Dados & Ferramentas</h3>
+                    </div>
+                    <div class="skill-list">
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>SQLite & MySQL Relacional</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>Git & Controlo de Versões</span>
+                                <span>90%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 90%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>Socket.IO / WebSockets</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 85%;"></div>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <div class="skill-item-header">
+                                <span>VS Code & Ambiente Dev</span>
+                                <span>95%</span>
+                            </div>
+                            <div class="skill-bar-track">
+                                <div class="skill-bar-fill" style="width: 95%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tech-pills">
+                        <span class="tech-tag"><i class="fas fa-database"></i> SQLite</span>
+                        <span class="tech-tag"><i class="fab fa-git-alt"></i> Git</span>
+                        <span class="tech-tag">Socket.IO</span>
+                        <span class="tech-tag">REST APIs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROJETOS EM DESTAQUE -->
+    <section id="projects" style="background: rgba(15, 23, 42, 0.2);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-rocket"></i> Portfólio</span>
+                <h2 class="section-title">Projetos em <span class="gradient-text">Destaque</span></h2>
+                <p class="section-subtitle">Exemplos práticos de aplicações, plataformas interativas e código em produção.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="projects-filter-bar">
+                <button class="filter-btn active" data-filter="all">Todos os Projetos</button>
+                <button class="filter-btn" data-filter="fullstack">Full-Stack & Chat</button>
+                <button class="filter-btn" data-filter="networks">Redes & Web</button>
+                <button class="filter-btn" data-filter="ui">UI & Dashboard</button>
+            </div>
+
+            <div class="projects-grid">
+                <!-- Projeto 1: Redes -->
+                <div class="project-card" data-category="networks">
+                    <div class="project-thumb">
+                        <img src="assets/images/project-1.png" alt="Trabalho de Redes Site">
+                        <div class="project-overlay">
+                            <a href="https://github.com/DavidAssuncaoPereira/Trabalho_Redes_Site" target="_blank" rel="noopener noreferrer" class="overlay-btn" title="Ver no GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-tags">
+                            <span class="tech-tag">TypeScript</span>
+                            <span class="tech-tag">CSS3</span>
+                            <span class="tech-tag">Redes</span>
+                        </div>
+                        <h3 class="project-title">Site - Trabalho de Redes</h3>
+                        <p class="project-desc">
+                            Aplicação interativa desenvolvida no módulo de Redes de Computadores para explorar topologias, arquitetura cliente-servidor e protocolos de comunicação web.
+                        </p>
+                        <div class="project-footer">
+                            <a href="https://github.com/DavidAssuncaoPereira/Trabalho_Redes_Site" target="_blank" rel="noopener noreferrer" class="project-link-text">
+                                Ver Repositório <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projeto 2: Chat & Portal Real-Time -->
+                <div class="project-card" data-category="fullstack">
+                    <div class="project-thumb">
+                        <img src="assets/images/project-2.png" alt="Chat em Tempo Real">
+                        <div class="project-overlay">
+                            <a href="chat.html" class="overlay-btn" title="Abrir Chat em Tempo Real">
+                                <i class="fas fa-comments"></i>
+                            </a>
+                            <a href="https://github.com/DavidAssuncaoPereira/davidpereira" target="_blank" rel="noopener noreferrer" class="overlay-btn" title="Ver Código">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-tags">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">Socket.IO</span>
+                            <span class="tech-tag">SQLite</span>
+                            <span class="tech-tag">Bcrypt</span>
+                        </div>
+                        <h3 class="project-title">Sistema de Chat em Tempo Real</h3>
+                        <p class="project-desc">
+                            Plataforma completa com autenticação segura de utilizadores, gestão de sessões, encriptação de palavras-passe com Bcrypt e mensagens instantâneas via WebSockets bidirecionais.
+                        </p>
+                        <div class="project-footer">
+                            <a href="chat.html" class="project-link-text">
+                                Testar Chat Direto <i class="fas fa-arrow-right"></i>
+                            </a>
+                            <a href="https://github.com/DavidAssuncaoPereira/davidpereira" target="_blank" rel="noopener noreferrer" style="color:var(--text-muted); font-size:0.85rem; text-decoration:none;">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Projeto 3: Dashboard & Aplicações Modernas -->
+                <div class="project-card" data-category="ui">
+                    <div class="project-thumb">
+                        <img src="assets/images/project-3.png" alt="Dashboard e Aplicações Web">
+                        <div class="project-overlay">
+                            <a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener noreferrer" class="overlay-btn" title="Explorar no GitHub">
+                                <i class="fab fa-github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="project-body">
+                        <div class="project-tags">
+                            <span class="tech-tag">JavaScript Moderno</span>
+                            <span class="tech-tag">UI / UX</span>
+                            <span class="tech-tag">Glassmorphism</span>
+                        </div>
+                        <h3 class="project-title">Plataforma Web & Dashboard</h3>
+                        <p class="project-desc">
+                            Interface visual contemporânea com alternância entre temas claro e escuro, cartões de dados translúcidos, micro-interações fluidas e layout completamente adaptável.
+                        </p>
+                        <div class="project-footer">
+                            <a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener noreferrer" class="project-link-text">
+                                Ver Mais no GitHub <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACTO & MENSAGEM DIRETA -->
+    <section id="contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag"><i class="fas fa-paper-plane"></i> Contacto</span>
+                <h2 class="section-title">Vamos <span class="gradient-text">Conversar</span></h2>
+                <p class="section-subtitle">Tem um projeto, uma ideia inovadora ou quer apenas trocar impressões? Envie uma mensagem direta.</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Informações e Canais Diretos -->
+                <div class="contact-info-list">
+                    <div class="contact-card" style="cursor:pointer;" onclick="copyEmail()">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email Profissional</h4>
+                            <p>3hs.david.pereira@gmail.com</p>
+                            <small style="color:var(--accent-cyan); font-weight:600;">Clique para copiar endereço</small>
+                        </div>
+                    </div>
+
+                    <a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener noreferrer" class="contact-card">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #334155, #0f172a);">
+                            <i class="fab fa-github"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>GitHub</h4>
+                            <p>github.com/DavidAssuncaoPereira</p>
+                            <small style="color:var(--text-muted);">Ver repositórios e código fonte</small>
+                        </div>
+                    </a>
+
+                    <div class="contact-card">
+                        <div class="contact-icon" style="background: linear-gradient(135deg, #10b981, #06b6d4);">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Localização & Fuso Horário</h4>
+                            <p>Portugal (GMT / WET)</p>
+                            <small style="color:var(--accent-emerald);">Disponível remotamente</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Caixa Interativa de Envio Rápido / Atalho para o Chat -->
+                <div class="quick-message-box spotlight-card">
+                    <h3>Envie uma Mensagem Rápida</h3>
+                    <p>Preencha abaixo para iniciar uma conversa ou aceda ao chat em tempo real com login.</p>
+
+                    <form id="quickContactForm">
+                        <div class="form-row">
+                            <input type="text" id="quickName" class="input-field" placeholder="O seu nome" required>
+                            <input type="email" id="quickEmail" class="input-field" placeholder="O seu email" required>
+                        </div>
+                        <div style="margin-bottom: 1.2rem;">
+                            <textarea id="quickMessage" class="input-field" placeholder="Descreva a sua ideia ou mensagem..." required></textarea>
+                        </div>
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
+                            <button type="submit" class="btn btn-primary btn-glow">
+                                <i class="fas fa-paper-plane"></i> Enviar Mensagem
+                            </button>
+                            <a href="chat.html" class="btn btn-secondary">
+                                <i class="fas fa-comments"></i> Abrir Chat Completo
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING CHAT LAUNCHER WIDGET -->
+    <div class="floating-chat-launcher">
+        <a href="chat.html" class="chat-launcher-btn" title="Falar diretamente com David Pereira">
+            <span class="chat-pulse-dot"></span>
+            <i class="fas fa-comments"></i>
+            <span>Chat em Tempo Real</span>
+        </a>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#home" class="logo">
+                        <div class="logo-icon-box">DP</div>
+                        <div>
+                            <span class="gradient-text">David</span> Pereira
+                        </div>
+                    </a>
+                    <p>
+                        Desenvolvedor web focado na harmonia entre código robusto, arquiteturas limpas e design moderno. Sempre pronto para aprender e criar!
+                    </p>
+                    <div class="social-links" style="margin-top:1.5rem;">
+                        <a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:3hs.david.pereira@gmail.com" class="social-icon" aria-label="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="chat.html" class="social-icon" aria-label="Chat">
+                            <i class="fas fa-comment"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Navegação</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="#home">Início</a></li>
+                        <li><a href="#services">O Que Faço</a></li>
+                        <li><a href="#about">Sobre Mim</a></li>
+                        <li><a href="#skills">Habilidades</a></li>
+                        <li><a href="#projects">Projetos</a></li>
+                        <li><a href="#contact">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4>Portal & Mensagens</h4>
+                    <ul class="footer-links-list">
+                        <li><a href="chat.html">Chat em Tempo Real</a></li>
+                        <li><a href="login.html">Iniciar Sessão</a></li>
+                        <li><a href="register.html">Criar Conta</a></li>
+                        <li><a href="https://github.com/DavidAssuncaoPereira/davidpereira" target="_blank" rel="noopener">Repositório GitHub</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="currentYear"></span> David Assunção Pereira. Todos os direitos reservados.</p>
+                <p style="font-size:0.85rem; color:var(--text-muted);">
+                    Feito com paixão, TypeScript, Node.js & Socket.IO
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button class="back-to-top" id="backToTop" aria-label="Voltar ao topo">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- Scripts -->
     <script src="app.js"></script>
 </body>
 </html>
