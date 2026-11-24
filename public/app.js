@@ -1,6 +1,6 @@
 /**
- * DAVID PEREIRA - SCRIPT CORPORATIVO
- * Gestão de Tema, Navegação e Formulário Institucional de Contacto
+ * DAVID PEREIRA - SCRIPT RETRO / PROGRAMADOR (B&W)
+ * Gestão de Tema, Interações Brutalistas e Formulário
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -8,53 +8,61 @@ document.addEventListener('DOMContentLoaded', () => {
     initNavigation();
     initContactForm();
     initFooterYear();
+    initKeyboardShortcuts();
 });
 
 // ==========================================================================
-// GESTÃO DO TEMA (Claro / Escuro Corporativo)
+// TEMA RETRO (Preto e Branco: Escuro / Claro)
 // ==========================================================================
 function initTheme() {
-    const savedTheme = localStorage.getItem('david_theme') || 'dark';
+    const savedTheme = localStorage.getItem('david_retro_theme') || 'dark';
     document.documentElement.setAttribute('data-theme', savedTheme);
-    updateThemeIcon(savedTheme);
+    updateThemeLabel(savedTheme);
 
     const themeToggleBtn = document.getElementById('themeToggle');
     if (themeToggleBtn) {
-        themeToggleBtn.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('david_theme', newTheme);
-            updateThemeIcon(newTheme);
-        });
+        themeToggleBtn.addEventListener('click', toggleTheme);
     }
 }
 
-function updateThemeIcon(theme) {
-    const icon = document.querySelector('#themeToggle i');
-    if (icon) {
-        icon.className = theme === 'light' ? 'fas fa-sun' : 'fas fa-moon';
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', newTheme);
+    localStorage.setItem('david_retro_theme', newTheme);
+    updateThemeLabel(newTheme);
+    showToast(`[ TEMA ALTERADO // MODO_${newTheme.toUpperCase()} ]`);
+}
+
+function updateThemeLabel(theme) {
+    const label = document.getElementById('themeLabel');
+    if (label) {
+        label.textContent = theme === 'dark' ? 'CLARO' : 'ESCURO';
     }
+}
+
+// ==========================================================================
+// ATALHOS DE TECLADO RETRO (Estilo Hacker / Terminal)
+// ==========================================================================
+function initKeyboardShortcuts() {
+    document.addEventListener('keydown', (e) => {
+        // Ignora se estiver a escrever num campo de texto
+        if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+
+        if (e.key === 't' || e.key === 'T') {
+            toggleTheme();
+        }
+    });
 }
 
 // ==========================================================================
 // NAVEGAÇÃO & MENU MOBILE
 // ==========================================================================
 function initNavigation() {
-    const navbar = document.querySelector('.navbar');
     const mobileToggle = document.getElementById('mobileToggle');
     const navLinks = document.getElementById('navLinks');
 
     window.addEventListener('scroll', () => {
-        if (navbar) {
-            if (window.scrollY > 30) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        }
-
-        // Active Link Spy
         const sections = document.querySelectorAll('header[id], section[id]');
         const scrollPos = window.scrollY + 100;
 
@@ -93,43 +101,55 @@ function initNavigation() {
 }
 
 // ==========================================================================
-// FORMULÁRIO DE CONTACTO INSTITUCIONAL
+// FORMULÁRIO DE CONTACTO
 // ==========================================================================
 function initContactForm() {
-    const form = document.getElementById('corporateContactForm');
+    const form = document.getElementById('retroContactForm');
     if (!form) return;
 
     form.addEventListener('submit', (e) => {
         e.preventDefault();
-        const name = document.getElementById('contactName').value.trim();
-        const email = document.getElementById('contactEmail').value.trim();
-        const subject = document.getElementById('contactSubject').value.trim();
-        const message = document.getElementById('contactMessage').value.trim();
+        const name = document.getElementById('clientName').value.trim();
+        const email = document.getElementById('clientEmail').value.trim();
+        const subject = document.getElementById('clientSubject').value.trim();
+        const msg = document.getElementById('clientMsg').value.trim();
 
-        if (!name || !email || !message) {
-            showToast('Por favor, preencha todos os campos obrigatórios.', 'error');
+        if (!name || !email || !msg) {
+            showToast('[ ERRO: CAMPOS OBRIGATÓRIOS EM FALTA ]', 'error');
             return;
         }
 
         const submitBtn = form.querySelector('button[type="submit"]');
         submitBtn.disabled = true;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A registar pedido...';
+        submitBtn.textContent = '>> A PROCESSAR TRANSMISSÃO...';
 
         setTimeout(() => {
             submitBtn.disabled = false;
-            submitBtn.innerHTML = '<i class="fas fa-check"></i> Mensagem Submetida com Sucesso';
-            showToast(`Obrigado, ${name}. A sua solicitação foi registada com sucesso. Entraremos em contacto brevemente.`, 'success');
+            submitBtn.textContent = '>> TRANSMISSÃO CONCLUÍDA [OK]';
+            showToast(`[ DADOS RECEBIDOS // REGISTO_${Date.now().toString().slice(-4)} // OBRIGADO ${name.toUpperCase()} ]`, 'success');
             form.reset();
 
             setTimeout(() => {
-                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submeter Pedido de Contacto';
+                submitBtn.textContent = '[ ENVIAR_DADOS_DE_CONTACTO ]';
             }, 3500);
-        }, 600);
+        }, 500);
     });
 }
 
 // ==========================================================================
-// NOTIFICAÇÃO DISCRETA (Toast)
+// UTILITÁRIO: COPIAR EMAIL
+// ==========================================================================
+function copyEmail() {
+    const email = '3hs.david.pereira@gmail.com';
+    navigator.clipboard.writeText(email).then(() => {
+        showToast('[ COPIADO // 3hs.david.pereira@gmail.com ]', 'success');
+    }).catch(() => {
+        showToast('[ EMAIL: 3hs.david.pereira@gmail.com ]');
+    });
+}
+
+// ==========================================================================
+// NOTIFICAÇÃO RETRO (Toast Monocromático)
 // ==========================================================================
 function showToast(message, type = 'info') {
     let container = document.getElementById('toastContainer');
@@ -140,14 +160,14 @@ function showToast(message, type = 'info') {
     }
 
     const toast = document.createElement('div');
-    toast.className = `toast ${type}`;
-    toast.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i> <span>${message}</span>`;
+    toast.className = 'toast';
+    toast.innerHTML = `<i class="fas fa-terminal"></i> <span>${message}</span>`;
     container.appendChild(toast);
 
     setTimeout(() => {
         toast.style.opacity = '0';
-        setTimeout(() => toast.remove(), 250);
-    }, 4500);
+        setTimeout(() => toast.remove(), 200);
+    }, 4000);
 }
 
 // ==========================================================================

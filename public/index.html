@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>David Pereira | Consultoria & Desenvolvimento Web</title>
+    <title>David Pereira // Engenharia & Desenvolvimento Web</title>
     
-    <!-- Meta SEO & Corporativo -->
-    <meta name="description" content="Consultoria e desenvolvimento de soluções web sob medida, integração de sistemas e engenharia de software por David Pereira em Portugal.">
+    <!-- Meta & SEO -->
+    <meta name="description" content="Engenharia de software e desenvolvimento web por David Pereira em Portugal. Soluções sob medida, APIs escaláveis e arquiteturas limpas.">
     <meta name="author" content="David Assunção Pereira">
-    <meta name="keywords" content="David Pereira, desenvolvimento web, consultoria informática, backend, frontend, Portugal, software sob medida">
+    <meta name="keywords" content="David Pereira, programador, engenharia de software, backend, frontend, Portugal, typescript, nodejs, csharp">
     
-    <!-- Tipografia & Ícones -->
+    <!-- Fontes & Ícones -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -18,86 +18,94 @@
 </head>
 <body>
 
-    <!-- NAVBAR CORPORATIVA -->
+    <!-- Retro Dot-Matrix Grid Background -->
+    <div class="retro-grid-bg"></div>
+
+    <!-- NAVBAR RETRO -->
     <nav class="navbar">
         <div class="container nav-container">
             <a href="#inicio" class="logo">
-                <div class="logo-badge">DP</div>
-                <div class="logo-text">
-                    David Pereira
-                    <span class="logo-sub">Desenvolvimento Web</span>
-                </div>
+                <span class="logo-tag">DP</span>
+                <span>DAVID_PEREIRA // DEV</span>
+                <span class="sys-status-indicator">
+                    <span class="status-dot"></span> ONLINE
+                </span>
             </a>
 
             <ul class="nav-links" id="navLinks">
-                <li><a href="#inicio" class="nav-link active">Início</a></li>
-                <li><a href="#servicos" class="nav-link">Serviços</a></li>
-                <li><a href="#metodologia" class="nav-link">Metodologia</a></li>
-                <li><a href="#sobre" class="nav-link">Sobre</a></li>
-                <li><a href="#competencias" class="nav-link">Competências</a></li>
-                <li><a href="#contacto" class="nav-link">Contacto</a></li>
+                <li><a href="#inicio" class="nav-link active">[01. INÍCIO]</a></li>
+                <li><a href="#servicos" class="nav-link">[02. SERVIÇOS]</a></li>
+                <li><a href="#pipeline" class="nav-link">[03. PIPELINE]</a></li>
+                <li><a href="#perfil" class="nav-link">[04. PERFIL]</a></li>
+                <li><a href="#contacto" class="nav-link">[05. CONTACTO]</a></li>
             </ul>
 
             <div class="nav-actions">
-                <button class="theme-toggle-btn" id="themeToggle" aria-label="Alternar tema de cor" title="Alternar tema">
-                    <i class="fas fa-moon"></i>
+                <button class="theme-toggle-btn" id="themeToggle" aria-label="Alternar tema">
+                    <i class="fas fa-adjust"></i> <span id="themeLabel">CLARO</span>
                 </button>
-                <a href="#contacto" class="btn btn-primary btn-sm">
-                    Falar Connosco
+                <a href="#contacto" class="btn btn-primary" style="padding: 0.4rem 0.9rem; font-size: 0.78rem;">
+                    [ CONTACTAR ]
                 </a>
-                <button class="mobile-toggle" id="mobileToggle" aria-label="Abrir Menu">
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Menu">
                     <i class="fas fa-bars"></i>
                 </button>
             </div>
         </div>
     </nav>
 
-    <!-- HERO CORPORATIVO -->
+    <!-- HERO SECTION RETRO -->
     <header id="inicio" class="hero">
         <div class="container">
             <div class="hero-grid">
                 <div class="hero-content">
-                    <span class="hero-tag">
-                        Engenharia & Soluções Digitais
-                    </span>
+                    <div class="terminal-meta-bar">
+                        <span>> ROOT@DAVID_PEREIRA:~$ INIT_ENGINEERING</span>
+                        <span class="cursor-blink"></span>
+                    </div>
                     <h1>
-                        Desenvolvimento Web & Soluções Digitais para Negócios
+                        CÓDIGO LIMPO.<br>
+                        ARQUITETURAS ROBUSTAS.<br>
+                        ZERO DISTRAÇÕES.
                     </h1>
                     <p class="hero-desc">
-                        Conceção e implementação de aplicações web escaláveis, interfaces funcionais e integração de sistemas sob medida. Foco permanente em estabilidade técnica, segurança de dados e valor operacional.
+                        Desenvolvimento web de alto desempenho, arquitetura de APIs e modelação de dados relacionais. Sem artifícios nem excessos: foco estrito em engenharia de software fiável, manutenível e orientada a resultados.
                     </p>
                     <div class="hero-buttons">
                         <a href="#contacto" class="btn btn-primary">
-                            Iniciar Contacto <i class="fas fa-arrow-right"></i>
+                            [ INICIAR_CONTACTO -> ]
                         </a>
                         <a href="#servicos" class="btn btn-secondary">
-                            Conhecer Serviços
+                            [ VER_SERVIÇOS ]
                         </a>
                     </div>
-                    <div class="trust-bar">
-                        <div class="trust-item">
-                            <h4>Rigor Técnico</h4>
-                            <p>Código limpo, arquitetura modular e boas práticas de engenharia.</p>
+                    <div class="system-spec-bar">
+                        <div class="spec-item">
+                            <span class="spec-label">// FORMAÇÃO</span>
+                            <span class="spec-value">3 Anos Curso Técnico</span>
                         </div>
-                        <div class="trust-item">
-                            <h4>Stack Moderna</h4>
-                            <p>TypeScript, Node.js, C#, bases de dados SQL e arquiteturas REST.</p>
+                        <div class="spec-item">
+                            <span class="spec-label">// CORE_STACK</span>
+                            <span class="spec-value">TypeScript / Node / SQL</span>
                         </div>
-                        <div class="trust-item">
-                            <h4>Portugal</h4>
-                            <p>Atuação profissional presencial e remota com rigor no cumprimento de prazos.</p>
+                        <div class="spec-item">
+                            <span class="spec-label">// LOCALIZAÇÃO</span>
+                            <span class="spec-value">Portugal [GMT]</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="hero-visual">
-                    <div class="profile-card">
-                        <div class="profile-img-container">
+                    <div class="retro-avatar-box">
+                        <div class="header-tag">
+                            <span>SYS_OPERATOR</span>
+                            <span>ID: #001</span>
+                        </div>
+                        <div class="avatar-frame">
                             <img src="assets/images/profile.png" alt="David Pereira">
                         </div>
-                        <div class="profile-caption">
-                            <h4>David Assunção Pereira</h4>
-                            <p>Desenvolvedor de Software & Web</p>
+                        <div class="retro-avatar-footer">
+                            <span>DAVID ASSUNÇÃO PEREIRA</span>
                         </div>
                     </div>
                 </div>
@@ -105,151 +113,129 @@
         </div>
     </header>
 
-    <!-- SERVIÇOS CORPORATIVOS -->
+    <!-- SERVIÇOS / MÓDULOS -->
     <section id="servicos">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">Áreas de Atuação</span>
-                <h2 class="section-title">Serviços Especializados</h2>
-                <p class="section-subtitle">
-                    Soluções estruturadas para empresas e projetos que necessitam de eficiência, segurança e modernização técnica.
-                </p>
+                <span class="section-tag">// 01_SERVICES</span>
+                <h2 class="section-title">Módulos de Atuação Técnica</h2>
+                <p class="section-subtitle">Soluções funcionais para entidades que necessitam de estabilidade e rigor de execução.</p>
             </div>
 
             <div class="services-grid">
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-desktop"></i>
-                    </div>
+                <div class="retro-card">
+                    <span class="card-index">[ MODULE_01 ]</span>
                     <h3>Desenvolvimento de Aplicações Web</h3>
                     <p>
-                        Criação de plataformas web completas, painéis internos de gestão corporativa e ferramentas digitais à medida, garantindo tempos de resposta céleres e total adaptabilidade a múltiplos dispositivos.
+                        Construção de aplicações completas com código estruturado em TypeScript e JavaScript moderno. Foco total em usabilidade, semântica limpa e compatibilidade entre plataformas.
                     </p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Interfaces responsivas com HTML5, CSS3 e TypeScript</li>
-                        <li><i class="fas fa-check"></i> Arquitetura orientada a componentes e usabilidade</li>
-                        <li><i class="fas fa-check"></i> Conformidade com normas semânticas internacionais</li>
+                    <ul class="retro-list">
+                        <li>Interfaces responsivas em HTML5 e CSS3 moderno</li>
+                        <li>Gestão modular de estados e eventos de utilizador</li>
+                        <li>Tempos de resposta imediatos e baixo overhead</li>
                     </ul>
                 </div>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-network-wired"></i>
-                    </div>
-                    <h3>Arquitetura de APIs & Integrações</h3>
+                <div class="retro-card">
+                    <span class="card-index">[ MODULE_02 ]</span>
+                    <h3>Arquitetura de APIs & Backend</h3>
                     <p>
-                        Implementação de serviços de backend sólidos, desenho de endpoints RESTful seguros e integração entre plataformas corporativas heterogéneas para automatização de processos.
+                        Desenho e programação de serviços de retaguarda em Node.js / Express e C#. Criação de rotas RESTful protegidas com validação rigorosa de dados de entrada.
                     </p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Servidores em Node.js / Express e C#</li>
-                        <li><i class="fas fa-check"></i> Autenticação segura e proteção de endpoints</li>
-                        <li><i class="fas fa-check"></i> Comunicação eficiente e estruturada de dados</li>
+                    <ul class="retro-list">
+                        <li>Endpoints estruturados segundo as convenções REST</li>
+                        <li>Tratamento sistemático de erros e integridade</li>
+                        <li>Comunicação segura e serialização de dados</li>
                     </ul>
                 </div>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-database"></i>
-                    </div>
-                    <h3>Modelação & Gestão de Dados</h3>
+                <div class="retro-card">
+                    <span class="card-index">[ MODULE_03 ]</span>
+                    <h3>Modelação & Gestão de Dados Relacionais</h3>
                     <p>
-                        Estruturação e manutenção de bases de dados relacionais para armazenamento fiável, garantia de integridade referencial e consultas de alta performance para relatórios e operações críticas.
+                        Modelação lógica e física de bases de dados relacionais em SQLite e MySQL. Normalização de esquemas para evitar redundância e assegurar integridade referencial.
                     </p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Modelação e normalização em SQLite e MySQL</li>
-                        <li><i class="fas fa-check"></i> Indexação estratégica para redução de latência</li>
-                        <li><i class="fas fa-check"></i> Procedimentos de cópia de segurança e consistência</li>
+                    <ul class="retro-list">
+                        <li>Esquemas normalizados (1NF a 3NF)</li>
+                        <li>Consultas SQL otimizadas com indexação</li>
+                        <li>Migrações seguras e backups automáticos</li>
                     </ul>
                 </div>
 
-                <div class="service-card">
-                    <div class="service-icon">
-                        <i class="fas fa-tools"></i>
-                    </div>
-                    <h3>Modernização & Otimização Técnica</h3>
+                <div class="retro-card">
+                    <span class="card-index">[ MODULE_04 ]</span>
+                    <h3>Otimização & Manutenção de Software</h3>
                     <p>
-                        Auditoria de plataformas existentes, refatoração de código com dívida técnica, resolução de estrangulamentos de performance e garantia de segurança da infraestrutura de software.
+                        Auditoria de desempenho em sistemas existentes, eliminação de dívida técnica, refatoração de código legado e implementação de boas práticas de segurança.
                     </p>
-                    <ul class="service-features">
-                        <li><i class="fas fa-check"></i> Redução substancial de tempos de carregamento</li>
-                        <li><i class="fas fa-check"></i> Atualização para versões e dependências contemporâneas</li>
-                        <li><i class="fas fa-check"></i> Manutenção preventiva e corretiva documentada</li>
+                    <ul class="retro-list">
+                        <li>Eliminação de redundâncias e refatoração</li>
+                        <li>Auditorias de performance e tempos de carregamento</li>
+                        <li>Atualização e consolidação de dependências</li>
                     </ul>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- METODOLOGIA DE TRABALHO -->
-    <section id="metodologia">
+    <!-- PIPELINE DE ENGENHARIA -->
+    <section id="pipeline">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">Engenharia & Padrões</span>
-                <h2 class="section-title">Metodologia de Execução</h2>
-                <p class="section-subtitle">
-                    Processo estruturado de quatro etapas que assegura rigor técnico, previsibilidade de prazos e alinhamento com as expectativas de negócio.
-                </p>
+                <span class="section-tag">// 02_WORKFLOW</span>
+                <h2 class="section-title">Pipeline de Execução</h2>
+                <p class="section-subtitle">Fluxo metódico de 4 passos aplicado em cada intervenção técnica.</p>
             </div>
 
-            <div class="process-grid">
-                <div class="process-step">
-                    <span class="step-num">01</span>
-                    <h4>Diagnóstico & Requisitos</h4>
-                    <p>
-                        Levantamento aprofundado dos requisitos operacionais, análise de restrições técnicas e definição clara dos objetivos e do âmbito do projeto.
-                    </p>
+            <div class="pipeline-grid">
+                <div class="pipeline-step">
+                    <span class="step-code">01</span>
+                    <h4>Diagnóstico</h4>
+                    <p>Análise de viabilidade técnica, recolha de especificações e levantamento de casos de uso operacionais.</p>
                 </div>
 
-                <div class="process-step">
-                    <span class="step-num">02</span>
-                    <h4>Arquitetura & Desenho</h4>
-                    <p>
-                        Definição da pilha tecnológica indicada, modelação das estruturas de dados e planeamento das interfaces de comunicação entre módulos.
-                    </p>
+                <div class="pipeline-step">
+                    <span class="step-code">02</span>
+                    <h4>Arquitetura</h4>
+                    <p>Desenho da topologia de software, definição de entidades de dados e planeamento de segurança.</p>
                 </div>
 
-                <div class="process-step">
-                    <span class="step-num">03</span>
-                    <h4>Implementação & Testes</h4>
-                    <p>
-                        Codificação disciplinada segundo padrões da indústria, acompanhada por testes de validação funcional e verificações de segurança.
-                    </p>
+                <div class="pipeline-step">
+                    <span class="step-code">03</span>
+                    <h4>Implementação</h4>
+                    <p>Escrita de código limpo acompanhada por testes de validação contínua e revisões de conformidade.</p>
                 </div>
 
-                <div class="process-step">
-                    <span class="step-num">04</span>
-                    <h4>Implementação & Suporte</h4>
-                    <p>
-                        Instalação em ambiente de produção, elaboração da documentação técnica e acompanhamento operacional pós-lançamento.
-                    </p>
+                <div class="pipeline-step">
+                    <span class="step-code">04</span>
+                    <h4>Entrega</h4>
+                    <p>Lançamento em ambiente produtivo, validação em tempo real e documentação técnica para suporte.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- SOBRE O PROFISSIONAL & COMPETÊNCIAS -->
-    <section id="sobre">
+    <!-- PERFIL & STACK -->
+    <section id="perfil">
         <div class="container">
             <div class="about-grid">
-                <!-- Narrativa Profissional -->
-                <div class="about-text">
-                    <span class="section-label">Perfil Profissional</span>
-                    <h2 class="section-title" style="margin-bottom: 1.2rem;">David Assunção Pereira</h2>
+                <div class="about-text-box">
+                    <span class="section-tag">// 03_PROFILE</span>
+                    <h3>David Assunção Pereira</h3>
                     <p>
-                        Desenvolvedor web sedeado em Portugal, com um percurso formativo de 3 anos de ensino técnico vocacional em informática e programação de sistemas no secundário.
+                        Programador residente em Portugal, formado através de um curso de 3 anos de programação de sistemas e informática no ensino secundário.
                     </p>
                     <p>
-                        A sua abordagem de trabalho privilegia soluções sustentáveis e sólidas em detrimento de tendências efémeras. Combina conhecimentos práticos de arquitetura de servidores e modelação de dados com a capacidade de entregar interfaces limpas, objetivas e intuitivas.
+                        Privilegia a clareza e a simplicidade técnica sobre modas passageiras. Trabalha diariamente com o objetivo de construir sistemas funcionais, manuteníveis e preparados para evoluir sem complexidade acidental.
                     </p>
                     <p>
-                        Com foco constante na precisão de execução e comunicação transparente, colabora ativamente com empresas e entidades que valorizam o rigor da engenharia de software no desenvolvimento das suas plataformas digitais.
+                        Disponível para colaborar com equipas técnicas e projetos corporativos que valorizem comunicação honesta, prazos cumpridos e disciplina de código.
                     </p>
                 </div>
 
-                <!-- Grelha de Competências Técnicas -->
-                <div class="skills-wrapper" id="competencias">
-                    <div class="skill-group">
-                        <h4><i class="fas fa-code" style="color:var(--primary);"></i> Linguagens de Programação</h4>
+                <div class="skills-column">
+                    <div class="skill-terminal-card">
+                        <h4><i class="fas fa-terminal"></i> LINGUAGENS</h4>
                         <div class="skill-tags">
                             <span class="skill-tag">TypeScript</span>
                             <span class="skill-tag">JavaScript (ES6+)</span>
@@ -260,24 +246,25 @@
                         </div>
                     </div>
 
-                    <div class="skill-group">
-                        <h4><i class="fas fa-server" style="color:var(--primary);"></i> Backend & Dados</h4>
+                    <div class="skill-terminal-card">
+                        <h4><i class="fas fa-server"></i> BACKEND & DADOS</h4>
                         <div class="skill-tags">
                             <span class="skill-tag">Node.js</span>
                             <span class="skill-tag">Express</span>
                             <span class="skill-tag">SQLite</span>
                             <span class="skill-tag">MySQL</span>
-                            <span class="skill-tag">APIs RESTful</span>
+                            <span class="skill-tag">REST APIs</span>
                         </div>
                     </div>
 
-                    <div class="skill-group">
-                        <h4><i class="fas fa-shield-alt" style="color:var(--primary);"></i> Metodologia & Ferramentas</h4>
+                    <div class="skill-terminal-card">
+                        <h4><i class="fas fa-cube"></i> AMBIENTE & FERRAMENTAS</h4>
                         <div class="skill-tags">
-                            <span class="skill-tag">Git & GitHub</span>
-                            <span class="skill-tag">Ambiente Linux</span>
-                            <span class="skill-tag">HTML5 / CSS3 Semântico</span>
-                            <span class="skill-tag">Arquitetura de Redes</span>
+                            <span class="skill-tag">Git</span>
+                            <span class="skill-tag">GitHub</span>
+                            <span class="skill-tag">Linux / Bash</span>
+                            <span class="skill-tag">VS Code</span>
+                            <span class="skill-tag">HTML5 / CSS3</span>
                         </div>
                     </div>
                 </div>
@@ -285,83 +272,67 @@
         </div>
     </section>
 
-    <!-- CONTACTO CORPORATIVO -->
+    <!-- CONTACTO RETRO -->
     <section id="contacto">
         <div class="container">
             <div class="section-header">
-                <span class="section-label">Comunicação Direta</span>
-                <h2 class="section-title">Entrar em Contacto</h2>
-                <p class="section-subtitle">
-                    Apresente as necessidades do seu projeto ou solicite esclarecimentos técnicos. Responderemos com brevidade e profissionalismo.
-                </p>
+                <span class="section-tag">// 04_COMMUNICATION</span>
+                <h2 class="section-title">Canal de Contacto Direto</h2>
+                <p class="section-subtitle">Apresente a sua solicitação técnica ou proposta de colaboração.</p>
             </div>
 
             <div class="contact-grid">
-                <!-- Informação Institucional -->
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-item-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <div class="contact-item-content">
-                            <h4>Email Profissional</h4>
-                            <p>3hs.david.pereira@gmail.com</p>
-                        </div>
+                <div class="contact-terminal-box">
+                    <div class="terminal-contact-item">
+                        <small>// ENDEREÇO ELETRÓNICO</small>
+                        <span id="emailValue">3hs.david.pereira@gmail.com</span><br>
+                        <button class="copy-btn" onclick="copyEmail()">[ COPIAR_EMAIL ]</button>
                     </div>
 
-                    <div class="contact-item">
-                        <div class="contact-item-icon">
-                            <i class="fab fa-github"></i>
-                        </div>
-                        <div class="contact-item-content">
-                            <h4>Repositório Institucional</h4>
-                            <p>github.com/DavidAssuncaoPereira</p>
-                        </div>
+                    <div class="terminal-contact-item">
+                        <small>// REPOSITÓRIO GITHUB</small>
+                        <a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener noreferrer">
+                            github.com/DavidAssuncaoPereira
+                        </a>
                     </div>
 
-                    <div class="contact-item">
-                        <div class="contact-item-icon">
-                            <i class="fas fa-map-marker-alt"></i>
-                        </div>
-                        <div class="contact-item-content">
-                            <h4>Sede & Localização</h4>
-                            <p>Portugal (Disponibilidade para operações remotas e presenciais)</p>
-                        </div>
+                    <div class="terminal-contact-item">
+                        <small>// FUSO HORÁRIO & LOCALIZAÇÃO</small>
+                        <span>Portugal (WET / GMT+0)</span>
                     </div>
                 </div>
 
-                <!-- Formulário de Contacto Profissional -->
-                <div class="contact-form-box">
-                    <form id="corporateContactForm">
+                <div class="contact-form-retro">
+                    <form id="retroContactForm">
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label" for="contactName">Nome Completo</label>
-                                <input type="text" id="contactName" class="form-input" placeholder="O seu nome" required>
+                                <label class="form-label" for="clientName">NOME // IDENTIFICAÇÃO</label>
+                                <input type="text" id="clientName" class="form-input" placeholder="Ex.: João Silva" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="contactCompany">Empresa / Entidade (Opcional)</label>
-                                <input type="text" id="contactCompany" class="form-input" placeholder="Nome da organização">
+                                <label class="form-label" for="clientCompany">EMPRESA // ORGANIZAÇÃO</label>
+                                <input type="text" id="clientCompany" class="form-input" placeholder="Opcional">
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="form-group">
-                                <label class="form-label" for="contactEmail">Email de Contacto</label>
-                                <input type="email" id="contactEmail" class="form-input" placeholder="email@empresa.com" required>
+                                <label class="form-label" for="clientEmail">EMAIL DE RETORNO</label>
+                                <input type="email" id="clientEmail" class="form-input" placeholder="email@dominio.com" required>
                             </div>
                             <div class="form-group">
-                                <label class="form-label" for="contactSubject">Assunto</label>
-                                <input type="text" id="contactSubject" class="form-input" placeholder="Ex.: Consulta para novo projeto" required>
+                                <label class="form-label" for="clientSubject">ASSUNTO</label>
+                                <input type="text" id="clientSubject" class="form-input" placeholder="Ex.: Proposta de projeto" required>
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label" for="contactMessage">Descrição das Necessidades</label>
-                            <textarea id="contactMessage" class="form-input" placeholder="Indique os requisitos essenciais ou âmbito da sua solicitação..." required></textarea>
+                            <label class="form-label" for="clientMsg">MENSAGEM // ESCOPO</label>
+                            <textarea id="clientMsg" class="form-input" placeholder="Descreva sucintamente as necessidades técnicas..." required></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary" style="width: 100%;">
-                            <i class="fas fa-paper-plane"></i> Submeter Pedido de Contacto
+                            [ ENVIAR_DADOS_DE_CONTACTO ]
                         </button>
                     </form>
                 </div>
@@ -369,47 +340,26 @@
         </div>
     </section>
 
-    <!-- FOOTER CORPORATIVO -->
+    <!-- FOOTER RETRO -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <div class="logo">
-                        <div class="logo-badge">DP</div>
-                        <div class="logo-text">
-                            David Pereira
-                            <span class="logo-sub">Desenvolvimento Web</span>
-                        </div>
-                    </div>
-                    <p>
-                        Engenharia de software e consultoria técnica especializada na criação e modernização de soluções web com foco em solidez e desempenho.
-                    </p>
+            <div class="footer-top">
+                <div class="logo">
+                    <span class="logo-tag">DP</span>
+                    <span>DAVID_PEREIRA // SOFTWARE_ENGINEERING</span>
                 </div>
-
-                <div class="footer-col">
-                    <h4>Navegação</h4>
-                    <ul class="footer-links">
-                        <li><a href="#inicio">Início</a></li>
-                        <li><a href="#servicos">Serviços</a></li>
-                        <li><a href="#metodologia">Metodologia</a></li>
-                        <li><a href="#sobre">Sobre o Profissional</a></li>
-                        <li><a href="#competencias">Competências</a></li>
-                    </ul>
-                </div>
-
-                <div class="footer-col">
-                    <h4>Contacto</h4>
-                    <ul class="footer-links">
-                        <li><a href="mailto:3hs.david.pereira@gmail.com">3hs.david.pereira@gmail.com</a></li>
-                        <li><a href="https://github.com/DavidAssuncaoPereira" target="_blank" rel="noopener">github.com/DavidAssuncaoPereira</a></li>
-                        <li><span>Portugal</span></li>
-                    </ul>
-                </div>
+                <ul class="footer-nav">
+                    <li><a href="#inicio">[INÍCIO]</a></li>
+                    <li><a href="#servicos">[SERVIÇOS]</a></li>
+                    <li><a href="#pipeline">[PIPELINE]</a></li>
+                    <li><a href="#perfil">[PERFIL]</a></li>
+                    <li><a href="#contacto">[CONTACTO]</a></li>
+                </ul>
             </div>
 
-            <div class="footer-bottom">
-                <p>&copy; <span id="currentYear"></span> David Assunção Pereira. Todos os direitos reservados.</p>
-                <p>Engenharia de Software & Desenvolvimento Web</p>
+            <div class="footer-terminal-line">
+                <span>david@pereira:~$ echo "ALL RIGHTS RESERVED // COPYRIGHT (C) <span id="currentYear"></span>"</span>
+                <span>STATUS: PRODUCTION_READY</span>
             </div>
         </div>
     </footer>
